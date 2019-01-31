@@ -1,2 +1,4 @@
 # ssi-uport
-Code and docs building a SSI solution with uPort
+Code and docs experimenting in SSI with the uPort platform
+
+
