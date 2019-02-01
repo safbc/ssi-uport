@@ -1,0 +1,66 @@
+@startuml
+skinparam ParticipantPadding 10
+skinparam BoxPadding 10
+
+
+== BAC2019 User Story ==
+
+group Install and configure uPort Mobile App
+
+actor PERSON #purple
+PERSON -> UPORT         : Install uPort App on mobile
+entity NOTIFICATION
+control "QR CODE" as QR
+boundary WEBSITE #blue
+control "SAFBC APP" as SAFBC #red
+actor "SAFBC REP" as REP #red
+
+
+
+box "ETHEREUM"
+UPORT -> MAINNET #blue  : Request New Credential
+MAINNET -> UPORT        : <color:red>Issue Ether Address & DID</color>
+UPORT -> RINKEBY #grey  : Request New Credential
+RINKEBY -> UPORT        : <color:red>Issue Ether Address & DID</color>
+end box
+
+PERSON -> UPORT : Complete User Profile
+end group
+
+== Sponsor Stand ==
+
+group Connect with Exibition Sponsor
+PERSON -> WEBSITE       : Proceed to Sponsor Stand and request login with uPort
+WEBSITE -> QR           : Create uPort QR Code
+QR -> UPORT             : Scan QR with uPort App
+UPORT -> PERSON         : Request permission to share user data
+PERSON -> PERSON        : Collect data
+PERSON -> UPORT         : Data supply & Granted
+UPORT -> WEBSITE        : share user data
+WEBSITE -> WEBSITE      : Validate
+WEBSITE -> PERSON       : Logged in to website
+end group
+
+group Attendance Verification
+
+WEBSITE -> NOTIFICATION : Issue Attendance credentials
+NOTIFICATION -> UPORT   : Receive credentials
+UPORT -> PERSON         : Display Confirm
+PERSON -> UPORT         : Confirm
+end group
+
+== Gift Claim ==
+
+PERSON -> REP           : Go to SAFBC Stand
+REP -> SAFBC            : Start claim Process
+SAFBC -> QR             : Display QR
+QR -> UPORT             : Scan code
+UPORT -> PERSON         : Request permission to share user data
+PERSON -> UPORT         : Granted
+UPORT -> SAFBC          : share user data
+SAFBC -> SAFBC          : Validate claim
+SAFBC -> REP            : Confirm Claim
+REP -> PERSON           : Issue swag
+
+
+@enduml
