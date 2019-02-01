@@ -2,4 +2,4 @@
 
 ## Diagrams
 
-Sequence disgrams are in Plant UML format. 
+Sequence disgrams are in Plant UML format.
