@@ -3,7 +3,7 @@ skinparam ParticipantPadding 10
 skinparam BoxPadding 10
 
 
-== BAC2019 User Story ==
+== The Blockchain Africa Conference 2019 SSI User Story ==
 
 group Install and configure uPort Mobile App
 
@@ -11,7 +11,8 @@ actor PERSON #purple
 control "UPORT APP" as UPORT #purple
 entity NOTIFICATION
 control "QR CODE" as QR
-boundary WEBSITE #blue
+actor VENDOR #green
+boundary WEBAPI #blue
 control "SAFBC APP" as SAFBC #red
 actor "SAFBC REP" as REP #red
 
@@ -27,32 +28,32 @@ end box
 PERSON -> UPORT : Complete User Profile
 end group
 
-== Sponsor Stand ==
+== Sponsor Stand (Multiple Repeats?) ==
 
 group Connect with Exibition Sponsor
-PERSON -> WEBSITE       : Proceed to Sponsor Stand and request login with uPort
-WEBSITE -> QR           : Create uPort QR Code
+PERSON -> VENDOR       : Proceed to Sponsor Stand and request login with uPort
 QR -> UPORT             : Scan QR with uPort App
 UPORT -> PERSON         : Request permission to share user data
 PERSON -> PERSON        : Collect data
 PERSON -> UPORT         : Data supply & Granted
-UPORT -> WEBSITE        : share user data
-WEBSITE -> WEBSITE      : Validate
-WEBSITE -> PERSON       : Logged in to website
+UPORT -> WEBAPI        : share user data
+WEBAPI -> WEBAPI      : Validate
+WEBAPI -> PERSON       : Connected to Vendor
 end group
 
 group Attendance Verification
 
-WEBSITE -> NOTIFICATION : Issue Attendance credentials
+WEBAPI -> NOTIFICATION  : Issue Signed Attendance credentials
 NOTIFICATION -> UPORT   : Receive credentials
 UPORT -> PERSON         : Display Confirm
 PERSON -> UPORT         : Confirm
+UPORT -> UPORT          : Sign Credentials
 end group
 
 == Gift Claim ==
 
 PERSON -> REP           : Go to SAFBC Stand
-REP -> SAFBC            : Start claim Process
+REP -> SAFBC            : Start Claim Process
 SAFBC -> QR             : Display QR
 QR -> UPORT             : Scan code
 UPORT -> PERSON         : Request permission to share user data
