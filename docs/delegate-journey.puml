@@ -8,14 +8,14 @@ skinparam BoxPadding 10
 group Install and configure uPort Mobile App
 
 actor PERSON #purple
-PERSON -> UPORT         : Install uPort App on mobile
+control "UPORT APP" as UPORT #purple
 entity NOTIFICATION
 control "QR CODE" as QR
 boundary WEBSITE #blue
 control "SAFBC APP" as SAFBC #red
 actor "SAFBC REP" as REP #red
 
-
+PERSON -> UPORT         : Install uPort App on mobile
 
 box "ETHEREUM"
 UPORT -> MAINNET #blue  : Request New Credential
