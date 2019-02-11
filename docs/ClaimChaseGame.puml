@@ -1,0 +1,47 @@
+@startuml
+skinparam titleBorderRoundCorner 15
+skinparam titleBorderThickness 5
+skinparam titleBorderColor red
+skinparam titleBackgroundColor LightBlue
+
+title The Great Blockchain Africa SSI Quest of 2019
+
+legend bottom left
+- At each <b>Login</b> phase the Delegate provides Name & Email.
+- Return <b>Credential</b> Identifies the Issuer.
+- The Email step proves control of email address.
+endlegend
+
+cloud "Email\nService" as email
+database "BAC19" as DB #LightGrey
+actor Delegate #orange
+actor "Old Mutual" as V1 #green
+actor "Blockchain\nAcademy" as V2 #red
+actor VALR as V3 #blue
+actor "SAFBC\n Start" as SA1 #yellow
+actor "SAFBC\n End" as SA2 #yellow
+
+
+Delegate -up-|> V3 : Login
+V3 ==> Delegate : Cred
+
+Delegate -up-|> V2 : Login
+V2 ==> Delegate : Cred
+
+Delegate -up-|> V1 : Login
+V1 ==> Delegate : Cred
+
+Delegate --|> SA1: 1 Login
+SA1 <-> DB : 2 Lookup
+SA1 -up-> email : 3 Send Email
+email ~~~> Delegate : 4 Receive Email
+Delegate --> SA1 : 5 Capture Email Code
+SA1 => Delegate : 6 Issue Attendance Cred
+
+Delegate -down-|> SA2 : Present All\n Collected Credentials
+SA2 ==> Delegate : Gift Claim\n Credential
+SA2 ==> Delegate : Gift\n Issued
+
+center footer A Self Sovereign Identity Use Case built by SAFBC using uPort
+
+@enduml
