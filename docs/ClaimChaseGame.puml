@@ -7,6 +7,7 @@ skinparam titleBackgroundColor LightBlue
 title The Great Blockchain Africa SSI Quest of 2019
 
 legend bottom left
+- Delegate <b>MUST</b> install uPort with email used for BAC registration
 - At each <b>Login</b> phase the Delegate provides Name & Email.
 - Return <b>Credential</b> Identifies the Issuer.
 - The Email step proves control of email address.
