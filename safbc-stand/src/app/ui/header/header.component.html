@@ -1,0 +1,10 @@
+<header>
+  <a routerLink="/" class="logo">
+    <!-- <img src="assets/images/Protea_icon-03.png" alt="SAFBC Icon"> -->
+  </a>
+  <div class="logout mat-body" [ngClass]="{active: loggedIn == true}" (click)="logout()">
+    <span>
+      Logout
+    </span>
+  </div>
+</header>
