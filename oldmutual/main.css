@@ -19,12 +19,12 @@ body {
     /* ADD THIS LINE */
 
     /* Background styles */
-    background-image: url('/logo/bg-matrix-people.jpg');
+    background-image: url('/logo/bg-finger-scan.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: #486de8;
+    background-color: darkgreen;
     background-blend-mode: soft-light;
 }
 
