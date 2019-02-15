@@ -15,11 +15,11 @@ body {
 
     /* Text styles */
     text-align: center;
-    color: black;
+    color: whitesmoke;
     /* ADD THIS LINE */
 
     /* Background styles */
-    background-image: url('/logo/focus-area-image.jpg');
+    background-image: url('/logo/background.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
