@@ -49,7 +49,7 @@ function register() {
                             console.log('VALR cred not issued yet');
                             document.querySelector('#msg').innerHTML =
                                 document.querySelector('#msg').innerHTML +
-                                `<p>Thank you for visiting the VALR stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.`;
+                                `<p>Thank you for visiting the VALR stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
                             uport.sendVerification({
                                 exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
