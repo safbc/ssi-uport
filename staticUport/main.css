@@ -6,7 +6,7 @@ body {
 .hero {
     /* Sizing */
     width: 100vw;
-    height: 95vh;
+    height: 100vh;
 
     /* Flexbox stuff */
     display: flex;
@@ -56,4 +56,12 @@ body {
     border: 3px solid white;
     /* CHANGE THIS LINE */
     border-radius: 20px;
+}
+
+.hero .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
