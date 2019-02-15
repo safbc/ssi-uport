@@ -47,13 +47,13 @@ body {
     margin-right: auto;
 
     /* Text styles */
-    color: white;
+    color: black;
     /* CHANGE THIS LINE */
     text-decoration: none;
     font-size: 1.5em;
 
     /* Border styles */
-    border: 3px solid white;
+    border: 3px solid ridge;
     /* CHANGE THIS LINE */
     border-radius: 20px;
 }
