@@ -10,7 +10,7 @@ function register() {
     //by using default disclosure behavior.
     uport.requestDisclosure({
         requested: ['name', 'email'],
-        verified: ['standSAFBC'],
+        verified: ['SAFBC'],
         notifications: true
     })
     uport.onResponse('disclosureReq')

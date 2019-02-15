@@ -19,12 +19,12 @@ body {
     /* ADD THIS LINE */
 
     /* Background styles */
-    background-image: url('/logo/bg-silhoettes.jpg');
+    background-image: url('/logo/matrix-people.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: darkblue;
+    background-color: #486de8;
     background-blend-mode: color-burn;
 }
 
