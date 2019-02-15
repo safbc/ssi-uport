@@ -24,6 +24,8 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-color: darkblue;
+    background-blend-mode: multiply;
 }
 
 .hero h1 {
