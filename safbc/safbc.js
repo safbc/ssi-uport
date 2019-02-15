@@ -131,7 +131,6 @@ function verify() {
 
                 if (SAFBC && VALR && BlockchainAcademy && !gift) {
                     document.querySelector('#msg').innerHTML =
-                        document.querySelector('#msg').innerHTML +
                         `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issuing your gift now!</p>`;
 
                     uport.sendVerification({
@@ -149,7 +148,6 @@ function verify() {
                     })
                 } else if (!gift && (!SAFBC || !VALR || !BlockchainAcademy)) {
                     document.querySelector('#msg').innerHTML =
-                        document.querySelector('#msg').innerHTML +
                         `<p>Get back out there ${res.payload.name}. You have not yet completed the quest!.</br>Good hunting!</p>`;
                     document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
@@ -157,7 +155,6 @@ function verify() {
 
                 } else if (gift) {
                     document.querySelector('#msg').innerHTML =
-                        document.querySelector('#msg').innerHTML +
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy it!</p>`;
                     document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
