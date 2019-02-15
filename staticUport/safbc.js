@@ -47,7 +47,8 @@ function register() {
                             }
                         }
                     }).then(() => {
-                        logout(res.payload.name);
+                        document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                            `<button class="btn" onclick="logout('${res.payload.name}')">Register Delegate</button>`;
                     })
                 }
 
@@ -117,19 +118,24 @@ function verify() {
                             }
                         }
                     }).then(() => {
-                        logout(res.payload.name);
+                        document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                            `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     })
                 } else if (!gift && (!SAFBC || !VALR || !BlockchainAcademy)) {
                     document.querySelector('#msg').innerHTML =
                         document.querySelector('#msg').innerHTML +
                         `<p>Get back out there ${res.payload.name}. You have not yet completed the quest!.</br>Good hunting!`;
-                    logout(res.payload.name);
+                    document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                        `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                    // logout(res.payload.name);
 
                 } else if (gift) {
                     document.querySelector('#msg').innerHTML =
                         document.querySelector('#msg').innerHTML +
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy it!`;
-                    logout(res.payload.name);
+                    document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                        `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                    // logout(res.payload.name);
                 }
             });
 
@@ -141,7 +147,7 @@ function logout(name) {
     uport.logout()
         .then(() => {
             document.querySelector('#msg').innerHTML =
-                `<p>Goodbye ${name}. Logging you out. </p>`;
+                `<p>Goodbye ${name}. You are logged out. </p>`;
 
         });
 
