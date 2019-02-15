@@ -25,39 +25,63 @@ function register() {
             count = 0;
             SAFBC = false;
 
-            verified.forEach(element => {
-                console.log(++count);
-                if (undefined != element.claim.SAFBC) {
-                    SAFBC = true;
-                    console.log('SAFBC cred already issued');
-                    document.querySelector('#msg').innerHTML =
-                        document.querySelector('#msg').innerHTML +
-                        `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
+            if (verified.length = 0) {
+                console.log('SAFBC cred not issued yet');
+                document.querySelector('#msg').innerHTML =
+                    document.querySelector('#msg').innerHTML +
+                    `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.`;
+
+                uport.sendVerification({
+                    exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                    claim: {
+                        'SAFBC': {
+                            'DelegateName': res.payload.name,
+                            'DelegateEmail': res.payload.email,
+                            'DelegateNumber': 'Get number from DB',
+                            'LastSeen': `${new Date()}`
+                        }
+                    }
+                }).then(() => {
                     document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
-                } else {
-                    console.log('SAFBC cred not issued yet');
-                    document.querySelector('#msg').innerHTML =
-                        document.querySelector('#msg').innerHTML +
-                        `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.`;
-
-                    uport.sendVerification({
-                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                        claim: {
-                            'SAFBC': {
-                                'DelegateName': res.payload.name,
-                                'DelegateEmail': res.payload.email,
-                                'DelegateNumber': 'Get number from DB',
-                                'LastSeen': `${new Date()}`
-                            }
-                        }
-                    }).then(() => {
+                })
+            } else {
+                verified.forEach(element => {
+                    console.log(++count);
+                    if (undefined != element.claim.SAFBC) {
+                        SAFBC = true;
+                        console.log('SAFBC cred already issued');
+                        document.querySelector('#msg').innerHTML =
+                            document.querySelector('#msg').innerHTML +
+                            `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
                         document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
                             `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
-                    })
-                }
+                    } else {
+                        console.log('SAFBC cred not issued yet');
+                        document.querySelector('#msg').innerHTML =
+                            document.querySelector('#msg').innerHTML +
+                            `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.`;
 
-            });
+                        uport.sendVerification({
+                            exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                            claim: {
+                                'SAFBC': {
+                                    'DelegateName': res.payload.name,
+                                    'DelegateEmail': res.payload.email,
+                                    'DelegateNumber': 'Get number from DB',
+                                    'LastSeen': `${new Date()}`
+                                }
+                            }
+                        }).then(() => {
+                            document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                                `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                        })
+                    }
+
+                });
+            }
+
+
 
         })
 }
