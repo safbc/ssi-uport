@@ -82,12 +82,11 @@ function register() {
 }
 
 function logout(name) {
+    uport.logout();
 
-    uport.logout()
-        .then(() => {
-            document.querySelector('#msg').innerHTML =
-                `<p>Goodbye ${name}. You are logged out. </p>`;
+    document.querySelector('#msg').innerHTML =
+        `<p>Goodbye ${name}. You are logged out. </p>`;
 
-        });
+    setTimeout(location.reload(), 2000);
 
 }
