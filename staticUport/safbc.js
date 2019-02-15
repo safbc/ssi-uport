@@ -1,3 +1,7 @@
+import {
+    connect
+} from "net";
+
 //////////////////////////////
 //  Configure connect object
 /////////////////////////////
@@ -52,28 +56,31 @@ function login() {
                 if (stand1 && stand2 && stand3 && !gift) {
                     document.querySelector('#msg').innerHTML =
                         document.querySelector('#msg').innerHTML +
-                        `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issueing your gift now!`;
+                        `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issuing your gift now!`;
 
                     uport.sendVerification({
                         exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
                         claim: {
                             'GiftRedeemed': {
-                                'redeemedByName': res.payload.name,
-                                'issuedDate': `${new Date()}`,
-                                'redeemedByEmail': res.payload.email
+                                'redeemerName': res.payload.name,
+                                'redeemerEmail': res.payload.email,
+                                'redeemedDate': `${new Date()}`
                             }
                         }
+                    }).then(() => {
+                        uport.logout();
                     })
                 } else if (!gift && (!Stand1 || !Stand2 || !Stand3)) {
                     document.querySelector('#msg').innerHTML =
                         document.querySelector('#msg').innerHTML +
                         `<p>Get back out there ${res.payload.name}, you have not yet completed the quest!.</br>Good hunting!`;
+                    uport.logout();
 
                 } else if (gift) {
                     document.querySelector('#msg').innerHTML =
                         document.querySelector('#msg').innerHTML +
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy!`;
-
+                    uport.logout();
                 }
             });
 
