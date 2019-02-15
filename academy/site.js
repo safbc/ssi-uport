@@ -83,6 +83,7 @@ function register() {
 
 function logout(name) {
     uport.logout();
+    uport.reset();
 
     document.querySelector('#msg').innerHTML =
         `<p>Goodbye ${name}. You are logged out. </p>`;
