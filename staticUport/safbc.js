@@ -25,7 +25,7 @@ function register() {
             count = 0;
             SAFBC = false;
 
-            if (verified.length = 0) {
+            if (verified.length === 0) {
                 console.log('SAFBC cred not issued yet');
                 document.querySelector('#msg').innerHTML =
                     document.querySelector('#msg').innerHTML +
