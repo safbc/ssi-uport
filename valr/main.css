@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.hero {
+    /* Sizing */
+    width: 100vw;
+    height: 100vh;
+
+    /* Flexbox stuff */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Text styles */
+    text-align: center;
+    color: whitesmoke;
+    /* ADD THIS LINE */
+
+    /* Background styles */
+    background-image: url('/logo/bg-silhoettes.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: darkblue;
+    background-blend-mode: color-burn;
+}
+
+.hero h1 {
+    /* Text styles */
+    font-size: 5em;
+
+    /* Margins */
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.hero .btn {
+    /* Positioning and sizing */
+    display: block;
+    width: 200px;
+
+    /* Padding and margins */
+    padding: 1em;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* Text styles */
+    color: black;
+    /* CHANGE THIS LINE */
+    text-decoration: none;
+    font-size: 1.5em;
+
+    /* Border styles */
+    border: 3px solid ridge;
+    /* CHANGE THIS LINE */
+    border-radius: 20px;
+}
+
+.hero .tbl {
+    width: 100%;
+}
+
+.hero .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}

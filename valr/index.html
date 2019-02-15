@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SAFBC Stand - uPort Demo</title>
+    <link rel="stylesheet" href="/main.css">
+    <!-- Load connect from CDN -->
+    <script src="https://unpkg.com/uport-connect/dist/uport-connect.js"></script>
+    <script src="safbc.js"></script>
+
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-inner">
+            <img src="/logo/SAFBC.png" alt="safbc logo">
+            <h1>THE GREAT SSI QUEST</h1>
+            <h2>Welcome to the SAFBC</h2>
+            <table class="tbl">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="width: 40%">
+                        <button class="btn" onclick="register()">Register Delegate</button>
+                    </td>
+                    <td style="width: 40%">
+                        <button class="btn" onclick="verify()">Complete Quest</button>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+            <div id="msg">
+                Give the module a second to load after clicking the button...
+            </div>
+        </div>
+        <div class="footer">
+            <img src="/logo/blockchain-africa-conf-logo.png" alt="blockchain africa conf logo">
+        </div>
+    </section>
+
+</body>
+
+</html>
