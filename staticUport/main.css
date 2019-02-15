@@ -19,7 +19,7 @@ body {
     /* ADD THIS LINE */
 
     /* Background styles */
-    background-image: url('/logo/background.jpg');
+    background-image: url('/logo/bg-eye-fingers.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -56,6 +56,10 @@ body {
     border: 3px solid ridge;
     /* CHANGE THIS LINE */
     border-radius: 20px;
+}
+
+.hero .tbl {
+    width: 100%;
 }
 
 .hero .footer {
