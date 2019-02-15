@@ -20,7 +20,7 @@ function register() {
             verified = res.payload.verified;
             console.log(res.payload);
             document.querySelector('#msg').innerHTML =
-                `<p>Congratulations ${res.payload.name}, you are now <b>logged in</b>.</p>`;
+                `<p>Welcome ${res.payload.name}, you are now <b>logged in</b>.</p>`;
 
             count = 0;
             SAFBC = false;
@@ -29,9 +29,14 @@ function register() {
                 console.log(++count);
                 if (undefined != element.claim.SAFBC) {
                     SAFBC = true;
-                }
-
-                if (!SAFBC) {
+                    console.log('SAFBC cred already issued');
+                    document.querySelector('#msg').innerHTML =
+                        document.querySelector('#msg').innerHTML +
+                        `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
+                    document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                        `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                } else {
+                    console.log('SAFBC cred not issued yet');
                     document.querySelector('#msg').innerHTML =
                         document.querySelector('#msg').innerHTML +
                         `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.`;
@@ -48,14 +53,11 @@ function register() {
                         }
                     }).then(() => {
                         document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
-                            `<button class="btn" onclick="logout('${res.payload.name}')">Register Delegate</button>`;
+                            `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     })
                 }
 
             });
-
-
-
 
         })
 }
