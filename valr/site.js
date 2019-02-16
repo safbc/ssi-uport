@@ -15,6 +15,9 @@ const uport = new Connect('VALR SSI Quest', {
 })
 
 function register() {
+    const btnTable = document.querySelector('#tbl');
+    const msgDiv = document.querySelector('#msg');
+
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
@@ -28,18 +31,20 @@ function register() {
             json = JSON.stringify(res.payload);
             verified = res.payload.verified;
             console.log(res.payload);
-            document.querySelector('#msg').innerHTML =
+
+            btnTable.parentNode.removeChild(btnTable);
+
+            msgDiv.innerHTML =
                 `<p>Welcome ${res.payload.name}, you are now <b>logged in</b>.</p>`;
 
             count = 0;
 
             if (verified.length === 0) {
                 console.log('SAFBC cred not issued yet');
-                document.querySelector('#msg').innerHTML =
-                    document.querySelector('#msg').innerHTML +
+                msgDiv.innerHTML = msgDiv.innerHTML +
                     `<p>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!</p>`;
 
-                document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                     `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
 
             } else {
@@ -47,17 +52,15 @@ function register() {
                     console.log(++count);
                     if (undefined === element.claim.SAFBC) {
                         console.log('SAFBC cred not issued yet');
-                        document.querySelector('#msg').innerHTML =
-                            document.querySelector('#msg').innerHTML +
+                        msgDiv.innerHTML = msgDiv.innerHTML +
                             `<p>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!</p>`;
 
-                        document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                        msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                             `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     } else {
                         if (undefined === element.claim.VALR) {
                             console.log('VALR cred not issued yet');
-                            document.querySelector('#msg').innerHTML =
-                                document.querySelector('#msg').innerHTML +
+                            msgDiv.innerHTML = msgDiv.innerHTML +
                                 `<p>Thank you for visiting the VALR stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
                             uport.sendVerification({
@@ -71,15 +74,14 @@ function register() {
                                     }
                                 }
                             }).then(() => {
-                                document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                                msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                                     `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                             })
                         } else {
                             console.log('VALR cred already issued');
-                            document.querySelector('#msg').innerHTML =
-                                document.querySelector('#msg').innerHTML +
+                            msgDiv.innerHTML = msgDiv.innerHTML +
                                 `<p>Thank you for visiting the VALR stand ${res.payload.name}.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
-                            document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                            msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                                 `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                         }
                     }

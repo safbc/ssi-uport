@@ -16,16 +16,6 @@ body {
     /* Text styles */
     text-align: center;
     color: whitesmoke;
-    /* ADD THIS LINE */
-
-    /* Background styles */
-    background-image: url('/logo/bg-matrix-people.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #486de8;
-    background-blend-mode: soft-light;
 }
 
 .hero h1 {
@@ -70,4 +60,5 @@ body {
     bottom: 0;
     width: 100%;
     text-align: center;
+    padding-bottom: 10px;
 }

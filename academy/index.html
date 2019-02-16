@@ -4,6 +4,7 @@
 <head>
     <title>Blockchain Academy Stand</title>
     <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/site.css">
     <!-- Load connect from CDN -->
     <script src="https://unpkg.com/uport-connect/dist/uport-connect.js"></script>
     <script src="site.js"></script>
@@ -16,19 +17,14 @@
             <img src="/logo/blockchain-academy.png" alt="blockchain-academy logo">
             <h1>THE GREAT SSI QUEST</h1>
             <h2>Welcome to Blockchain Academy</h2>
-            <!-- <table class="tbl">
+            <table class="tbl" id="tbl">
                 <tr>
-                    <td>&nbsp;</td>
-                    <td style="width: 40%"> -->
-            <button class="btn" onclick="register()">Register Delegate</button>
-            <!-- </td>
-                    <td style="width: 40%">
-                        <button class="btn" onclick="verify()">Complete Quest</button>
+                    <td>
+                        <button class="btn" onclick="register()">Register Delegate</button>
                     </td>
-                    <td>&nbsp;</td>
                 </tr>
-            </table> -->
-            <div id="msg">
+            </table>
+            <div id="msg" class="msg">
                 Give the module a second to load after clicking the button...
             </div>
         </div>

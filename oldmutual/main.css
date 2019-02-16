@@ -18,14 +18,7 @@ body {
     color: whitesmoke;
     /* ADD THIS LINE */
 
-    /* Background styles */
-    background-image: url('/logo/bg-finger-scan.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: darkgreen;
-    background-blend-mode: soft-light;
+
 }
 
 .hero h1 {
@@ -70,4 +63,5 @@ body {
     bottom: 0;
     width: 100%;
     text-align: center;
+    padding-bottom: 10px;
 }

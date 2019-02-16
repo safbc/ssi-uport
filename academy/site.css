@@ -1,0 +1,10 @@
+.hero {
+    /* Background styles */
+    background-image: url('/logo/bg-faces.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: darkred;
+    background-blend-mode: soft-light;
+}

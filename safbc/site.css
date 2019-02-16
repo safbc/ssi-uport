@@ -1,0 +1,10 @@
+.hero {
+    /* Background styles */
+    background-image: url('/logo/bg-silhoettes.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: darkblue;
+    background-blend-mode: color-burn;
+}
