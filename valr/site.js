@@ -3,7 +3,16 @@
 /////////////////////////////
 
 const Connect = window.uportconnect
-const uport = new Connect('VALR SSI Quest')
+const uport = new Connect('VALR SSI Quest', {
+    network: "mainnet",
+    profileImage: {
+        "/": "/ipfs/QmZWK7HRRM4Q5zC8aeRd1u9B3XtyTxRLQW211tAxaphMia"
+    },
+    bannerImage: {
+        "/": "/ipfs/QmdwUeghExKjyfYNz43yWHeF7ndjxSeaZosUQQ6ogbEr8T"
+    },
+    description: "VALR Stand @ Blockchain Africa 2019 Conference"
+})
 
 function register() {
     //Ask the user for their address information
