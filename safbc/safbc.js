@@ -13,10 +13,12 @@ const uport = new Connect('SAFBC SSI Quest', {
     },
     description: "SAFBC Stand @ Blockchain Africa 2019 Conference"
 });
-const btnTable = document.querySelector('#tbl');
-const msgDiv = document.querySelector('#msg');
+
 
 function register() {
+    const btnTable = document.querySelector('#tbl');
+    const msgDiv = document.querySelector('#msg');
+
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
@@ -98,6 +100,8 @@ function register() {
 }
 
 function verify() {
+    const btnTable = document.querySelector('#tbl');
+    const msgDiv = document.querySelector('#msg');
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
