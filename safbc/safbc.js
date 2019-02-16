@@ -4,6 +4,8 @@
 
 const Connect = window.uportconnect
 const uport = new Connect('SAFBC SSI Quest')
+const btnTable = document.querySelector('#tbl');
+const msgDiv = document.querySelector('#msg');
 
 function register() {
     //Ask the user for their address information
@@ -19,7 +21,10 @@ function register() {
             json = JSON.stringify(res.payload);
             verified = res.payload.verified;
             console.log(res.payload);
-            document.querySelector('#msg').innerHTML =
+
+            btnTable.parentNode.removeChild(btnTable);
+
+            msgDiv.innerHTML =
                 `<p>Welcome ${res.payload.name}, you are now <b>logged in</b>.</p>`;
 
             count = 0;
@@ -27,8 +32,7 @@ function register() {
 
             if (verified.length === 0) {
                 console.log('SAFBC cred not issued yet');
-                document.querySelector('#msg').innerHTML =
-                    document.querySelector('#msg').innerHTML +
+                msgDiv.innerHTML = msgDiv.innerHTML +
                     `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
                 uport.sendVerification({
@@ -42,7 +46,7 @@ function register() {
                         }
                     }
                 }).then(() => {
-                    document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                    msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                 })
             } else {
@@ -51,15 +55,13 @@ function register() {
                     if (undefined != element.claim.SAFBC) {
                         SAFBC = true;
                         console.log('SAFBC cred already issued');
-                        document.querySelector('#msg').innerHTML =
-                            document.querySelector('#msg').innerHTML +
+                        msgDiv.innerHTML = msgDiv.innerHTML +
                             `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
-                        document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                        msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                             `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     } else {
                         console.log('SAFBC cred not issued yet');
-                        document.querySelector('#msg').innerHTML =
-                            document.querySelector('#msg').innerHTML +
+                        msgDiv.innerHTML = msgDiv.innerHTML +
                             `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
                         uport.sendVerification({
@@ -73,7 +75,7 @@ function register() {
                                 }
                             }
                         }).then(() => {
-                            document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                            msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                                 `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                         })
                     }
@@ -101,6 +103,7 @@ function verify() {
             json = JSON.stringify(res.payload);
             verified = res.payload.verified;
             console.log(res.payload);
+            btnTable.parentNode.removeChild(btnTable);
             document.querySelector('#msg').innerHTML =
                 `<p>Hi ${res.payload.name}, you are now <b>logged in</b>.</p>`;
 
@@ -143,20 +146,20 @@ function verify() {
                             }
                         }
                     }).then(() => {
-                        document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                        msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                             `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     })
                 } else if (!gift && (!SAFBC || !VALR || !BlockchainAcademy)) {
                     document.querySelector('#msg').innerHTML =
                         `<p>Get back out there ${res.payload.name}. You have not yet completed the quest!.</br>Good hunting!</p>`;
-                    document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                    msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     // logout(res.payload.name);
 
                 } else if (gift) {
                     document.querySelector('#msg').innerHTML =
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy it!</p>`;
-                    document.querySelector('#msg').innerHTML = document.querySelector('#msg').innerHTML + '<br/>' +
+                    msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     // logout(res.payload.name);
                 }
