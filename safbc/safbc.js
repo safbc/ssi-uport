@@ -3,7 +3,16 @@
 /////////////////////////////
 
 const Connect = window.uportconnect
-const uport = new Connect('SAFBC SSI Quest')
+const uport = new Connect('SAFBC SSI Quest', {
+    network: "mainnet",
+    profileImage: {
+        "/": "/ipfs/QmaAroK3Mrxzi2rpTKvLyfGfWfAnNGNKrKpQXmwWg2F54b"
+    },
+    bannerImage: {
+        "/": "/ipfs/QmWeN9UFxU5mKWzuEXKuJTcPECkDa8MCJo95rCTGAchDQW"
+    },
+    description: "SAFBC Stand @ Blockchain Africa 2019 Conference"
+});
 const btnTable = document.querySelector('#tbl');
 const msgDiv = document.querySelector('#msg');
 
