@@ -3,7 +3,16 @@
 /////////////////////////////
 
 const Connect = window.uportconnect
-const uport = new Connect('Blockchain Academy SSI Quest')
+const uport = new Connect('Blockchain Academy SSI Quest', {
+    network: "mainnet",
+    profileImage: {
+        "/": "/ipfs/QmaCkTXkM4uedpRGNQ1YHqUCLRkutpMbA9qaCtFN8fwxHR"
+    },
+    bannerImage: {
+        "/": "/ipfs/QmTpKQQ41JzXtTyWXMK6Edz9ogfpd7aj6PCEsbpzWmCSUF"
+    },
+    description: "Blockchain Academy @ Blockchain Africa 2019 Conference"
+})
 
 function register() {
     const btnTable = document.querySelector('#tbl');
