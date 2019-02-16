@@ -3,7 +3,16 @@
 /////////////////////////////
 
 const Connect = window.uportconnect
-const uport = new Connect('Old Mutual SSI Quest')
+const uport = new Connect('Old Mutual SSI Quest', {
+    network: "mainnet",
+    profileImage: {
+        "/": "/ipfs/QmbWR7ZV7QhSnjmfGKoiT5wmvqLjSBFT1msFvMKgCdYWK5"
+    },
+    bannerImage: {
+        "/": "/ipfs/Qmbcxvpf7A4wshhZtoPVyXioED7c33sDrJdMjFNqAx6gFp"
+    },
+    description: "Old Mutual @ Blockchain Africa 2019 Conference"
+})
 
 function register() {
     //Ask the user for their address information
