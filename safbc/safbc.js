@@ -231,7 +231,7 @@ function logout() {
     uport.reset();
 
     document.querySelector('#msg').innerHTML =
-        `<p>Goodbye. </p>`;
+        `<p>Goodbye... </p>`;
 
     setTimeout(location.reload(), 2000);
 
