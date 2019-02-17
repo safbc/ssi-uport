@@ -231,7 +231,7 @@ function logDelegate(visitor) {
     var xhr = new XMLHttpRequest();
     var data = JSON.stringify(visitor);
     xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4) {
             console.log(this.responseText);
         }
     };
