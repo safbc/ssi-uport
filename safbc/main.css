@@ -59,6 +59,10 @@ body {
     margin-top: 10px;
 }
 
+.hero .info {
+    font-size: 0.8em
+}
+
 .hero .footer {
     position: fixed;
     left: 0;

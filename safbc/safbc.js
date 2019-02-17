@@ -26,7 +26,7 @@ function register() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email', 'country', 'phone'],
+        requested: ['name'],
         verified: ['SAFBC'],
         notifications: true
     })
@@ -40,7 +40,8 @@ function register() {
             btnTable.parentNode.removeChild(btnTable);
 
             msgDiv.innerHTML =
-                `<p>Welcome ${res.payload.name}, you are now <b>logged in</b>.</p>`;
+                `<p>Welcome delegate, you are now <b>logged in</b>.
+                Yout identifier is</p>`;
 
             count = 0;
             SAFBC = false;
@@ -48,12 +49,12 @@ function register() {
             if (verified.length === 0) {
                 console.log('SAFBC cred not issued yet');
                 msgDiv.innerHTML = msgDiv.innerHTML +
-                    `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
+                    `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.</p>
+                    <p>You have been issued an anonymous attendance credential.<br/> Please continue your quest for all the other credentials.</p>`;
 
                 let claimData = {
                     'SAFBC': {
-                        'DelegateName': res.payload.name,
-                        'DelegateEmail': res.payload.email,
+                        'DelegateDID': res.payload.did,
                         'AttendedSAFBC': true,
                         'LastSeen': `${new Date()}`
                     }
@@ -80,18 +81,18 @@ function register() {
                         SAFBC = true;
                         console.log('SAFBC cred already issued');
                         msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
+                            `<p>Thank you for visiting the SAFBC stand Delegate.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
                         msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                            `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                            `<button class="btn" onclick="logout()">Logout</button>`;
                     } else {
                         console.log('SAFBC cred not issued yet');
                         msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
+                            `<p>Thank you for visiting the SAFBC stand Delegate.</p>
+                        <p>You have been issued an anonymous attendance credential.<br/> Please continue your quest for all the other credentials.</p>`;
 
                         let claimData = {
                             'SAFBC': {
-                                'DelegateName': res.payload.name,
-                                'DelegateEmail': res.payload.email,
+                                'DelegateDID': res.payload.did,
                                 'AttendedSAFBC': true,
                                 'LastSeen': `${new Date()}`
                             }
@@ -132,7 +133,7 @@ function verify() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email', 'country', 'phone'],
+        requested: ['name', 'email'],
         verified: ['SAFBC', 'OldMutual', 'VALR', 'BlockchainAcademy', 'GiftRedeemed'],
         notifications: true
     })
@@ -171,6 +172,8 @@ function verify() {
                     gift = true;
                 }
 
+                // TODO: Must validate as well aginst database in case user deletes local store of credentials.
+
                 if (SAFBC && VALR && OldMutual && BlockchainAcademy && !gift) {
                     msgDiv.innerHTML = `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issuing your gift now!</p>`;
 
@@ -178,6 +181,7 @@ function verify() {
                         'GiftRedeemed': {
                             'redeemerName': res.payload.name,
                             'redeemerEmail': res.payload.email,
+                            'redeemerDID': res.payload.did,
                             'GotGift': true,
                             'redeemedDate': `${new Date()}`
                         }
@@ -195,19 +199,20 @@ function verify() {
                         claim: claimData
                     }).then(() => {
                         msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                            `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                            `<button class="btn" onclick="logout()">Logout</button>`;
                     })
                 } else if (!gift && (!SAFBC || !VALR || !BlockchainAcademy)) {
                     msgDiv.innerHTML =
-                        `<p>Get back out there ${res.payload.name}. You have not yet completed the quest!.</br>Good hunting!</p>`;
+                        `<p>Get back out there Delegate.<br/>
+                        You have not yet completed the quest so keep hunting!</p>`;
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                        `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                        `<button class="btn" onclick="logout()">Logout</button>`;
 
                 } else if (gift) {
                     msgDiv.innerHTML =
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy it!</p>`;
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                        `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                        `<button class="btn" onclick="logout()">Logout</button>`;
                 }
             });
 
@@ -220,13 +225,13 @@ function verify() {
  * @date 2019-02-17
  * @param {*} name Name for friendly screen message
  */
-function logout(name) {
+function logout() {
 
     uport.logout();
     uport.reset();
 
     document.querySelector('#msg').innerHTML =
-        `<p>Goodbye ${name}. You are logged out. </p>`;
+        `<p>Goodbye. </p>`;
 
     setTimeout(location.reload(), 2000);
 
