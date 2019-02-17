@@ -58,7 +58,8 @@ function register() {
                         'LastSeen': `${new Date()}`
                     }
                 }
-
+                // log the visit to firestore
+                logDelegate(claimData);
 
                 uport.sendVerification({
                     exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
@@ -91,6 +92,8 @@ function register() {
                             }
                         }
 
+                        // log the visit to firestore
+                        logDelegate(claimData);
 
                         uport.sendVerification({
                             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
