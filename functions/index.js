@@ -29,30 +29,13 @@ exports.logActivity = functions.https.onRequest((req, res) => {
         res.set('Access-Control-Allow-Headers', 'Content-Type');
 
         console.log(req.body);
-        let data = {};
-        let colStr = 'SAFBC';
-
-        if (undefined !== req.body.SAFBC) {
-            data = req.body.SAFBC
-            colStr = 'SAFBC';
-        } else if (undefined !== req.body.VALR) {
-            data = req.body.VALR
-            colStr = 'VALR';
-        } else if (undefined !== req.body.OldMutual) {
-            data = req.body.OldMutual
-            colStr = 'OldMutual';
-        } else if (undefined !== req.body.BlockchainAcademy) {
-            data = req.body.BlockchainAcademy
-            colStr = 'BlockchainAcademy';
-        } else if (undefined !== req.body.GiftRedeemed) {
-            data = req.body.GiftRedeemed
-            colStr = 'GiftRedeemed';
-        }
+        let data = req.body;
+        let colStr = 'Activity';
 
         let col = db.collection(colStr);
         return col.add(data)
             .then((snapshot) => {
-                console.log('db add successful', snapshot);
+                console.log('db add successful');
                 return res.status(200).send(snapshot);
             })
             .catch(e => {
