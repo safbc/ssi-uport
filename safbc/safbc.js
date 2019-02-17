@@ -40,8 +40,7 @@ function register() {
             btnTable.parentNode.removeChild(btnTable);
 
             msgDiv.innerHTML =
-                `<p>Welcome delegate, you are now <b>logged in</b>.
-                Yout identifier is</p>`;
+                `<p>Welcome delegate, you are now logged in</p>`;
 
             count = 0;
             SAFBC = false;
@@ -49,7 +48,7 @@ function register() {
             if (verified.length === 0) {
                 console.log('SAFBC cred not issued yet');
                 msgDiv.innerHTML = msgDiv.innerHTML +
-                    `<p>Thank you for visiting the SAFBC stand Delegate.</p>
+                    `<p>Thank you for visiting the SAFBC stand.</p>
                     <p>You have been issued an anonymous attendance credential.<br/>
                     Please continue your quest for all the other credentials.</p>`;
 
