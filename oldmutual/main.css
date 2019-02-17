@@ -57,6 +57,10 @@ body {
     width: 100%;
 }
 
+.hero .msg {
+    margin-top: 10px;
+}
+
 .hero .footer {
     position: fixed;
     left: 0;
