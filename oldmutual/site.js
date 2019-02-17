@@ -26,7 +26,7 @@ function register() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email', 'city', 'telephone'],
+        requested: ['name', 'email', 'country', 'telephone'],
         verified: ['SAFBC', 'OldMutual'],
         notifications: true
     })
