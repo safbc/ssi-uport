@@ -26,7 +26,7 @@ function register() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name'],
+        requested: [],
         verified: ['SAFBC'],
         notifications: true
     })
@@ -49,8 +49,9 @@ function register() {
             if (verified.length === 0) {
                 console.log('SAFBC cred not issued yet');
                 msgDiv.innerHTML = msgDiv.innerHTML +
-                    `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.</p>
-                    <p>You have been issued an anonymous attendance credential.<br/> Please continue your quest for all the other credentials.</p>`;
+                    `<p>Thank you for visiting the SAFBC stand Delegate.</p>
+                    <p>You have been issued an anonymous attendance credential.<br/>
+                    Please continue your quest for all the other credentials.</p>`;
 
                 let claimData = {
                     'SAFBC': {
