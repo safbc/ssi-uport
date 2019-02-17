@@ -26,7 +26,7 @@ function register() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email', 'country', 'telephone'],
+        requested: ['name', 'email', 'country', 'phone', 'ticket'],
         verified: ['SAFBC', 'OldMutual'],
         notifications: true
     })
@@ -75,7 +75,9 @@ function register() {
                                     'DelegateEmail': res.payload.email,
                                     'AttendedOldMutual': true,
                                     'LastSeen': `${new Date()}`
-                                }
+                                },
+                                'phone': '+27115550000',
+                                'ticket': '1234567890'
                             }
 
                             // log the visit to firestore
