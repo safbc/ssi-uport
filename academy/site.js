@@ -14,6 +14,11 @@ const uport = new Connect('Blockchain Academy SSI Quest', {
     description: "Blockchain Academy @ Blockchain Africa 2019 Conference"
 })
 
+/**
+ * @description Login and register the delegate as attending the booth.
+ * @author G de Beer
+ * @date 2019-02-17
+ */
 function register() {
     const btnTable = document.querySelector('#tbl');
     const msgDiv = document.querySelector('#msg');
@@ -63,16 +68,21 @@ function register() {
                             msgDiv.innerHTML = msgDiv.innerHTML +
                                 `<p>Thank you for visiting the Blockchain Academy stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
+                            let claimData = {
+                                'BlockchainAcademy': {
+                                    'DelegateName': res.payload.name,
+                                    'DelegateEmail': res.payload.email,
+                                    'AttendedBlockchainAcademy': true,
+                                    'LastSeen': `${new Date()}`
+                                }
+                            }
+
+                            // log the visit to firestore
+                            logDelegate(claimData);
+
                             uport.sendVerification({
                                 exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                claim: {
-                                    'BlockchainAcademy': {
-                                        'DelegateName': res.payload.name,
-                                        'DelegateEmail': res.payload.email,
-                                        'AttendedBlockchainAcademy': true,
-                                        'LastSeen': `${new Date()}`
-                                    }
-                                }
+                                claim: claimData
                             }).then(() => {
                                 msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                                     `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
@@ -92,6 +102,12 @@ function register() {
         })
 }
 
+/**
+ * @description Log the user out and clear session data.
+ * @author G de Beer
+ * @date 2019-02-17
+ * @param {*} name Name for friendly screen message
+ */
 function logout(name) {
     uport.logout();
     uport.reset();
@@ -101,4 +117,24 @@ function logout(name) {
 
     setTimeout(location.reload(), 2000);
 
+}
+
+/**
+ * @description Log the delegate activity to firestore via cloud function.
+ * @author G de Beer
+ * @date 2019-02-17
+ * @param {*} visitor uPort claim data
+ */
+function logDelegate(visitor) {
+    var xhr = new XMLHttpRequest();
+    var data = JSON.stringify(visitor);
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    };
+    xhr.open("POST", "https://us-central1-veritydemo1.cloudfunctions.net/function-1");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("cache-control", "no-cache");
+    xhr.send(data);
 }

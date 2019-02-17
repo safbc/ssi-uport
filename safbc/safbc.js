@@ -14,7 +14,11 @@ const uport = new Connect('SAFBC SSI Quest', {
     description: "SAFBC Stand @ Blockchain Africa 2019 Conference"
 });
 
-
+/**
+ * @description Login and register the delegate as attending the booth.
+ * @author G de Beer
+ * @date 2019-02-17
+ */
 function register() {
     const btnTable = document.querySelector('#tbl');
     const msgDiv = document.querySelector('#msg');
@@ -46,16 +50,19 @@ function register() {
                 msgDiv.innerHTML = msgDiv.innerHTML +
                     `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
+                let claimData = {
+                    'SAFBC': {
+                        'DelegateName': res.payload.name,
+                        'DelegateEmail': res.payload.email,
+                        'AttendedSAFBC': true,
+                        'LastSeen': `${new Date()}`
+                    }
+                }
+
+
                 uport.sendVerification({
                     exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                    claim: {
-                        'SAFBC': {
-                            'DelegateName': res.payload.name,
-                            'DelegateEmail': res.payload.email,
-                            'DelegateNumber': 'Get number from DB',
-                            'LastSeen': `${new Date()}`
-                        }
-                    }
+                    claim: claimData
                 }).then(() => {
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
@@ -75,16 +82,19 @@ function register() {
                         msgDiv.innerHTML = msgDiv.innerHTML +
                             `<p>Thank you for visiting the SAFBC stand ${res.payload.name}.<br/>You have been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
 
+                        let claimData = {
+                            'SAFBC': {
+                                'DelegateName': res.payload.name,
+                                'DelegateEmail': res.payload.email,
+                                'AttendedSAFBC': true,
+                                'LastSeen': `${new Date()}`
+                            }
+                        }
+
+
                         uport.sendVerification({
                             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                            claim: {
-                                'SAFBC': {
-                                    'DelegateName': res.payload.name,
-                                    'DelegateEmail': res.payload.email,
-                                    'DelegateNumber': 'Get number from DB',
-                                    'LastSeen': `${new Date()}`
-                                }
-                            }
+                            claim: claimData
                         }).then(() => {
                             msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                                 `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
@@ -99,14 +109,19 @@ function register() {
         })
 }
 
+/**
+ * @description Verify id delegate has met requirement for receiving the reward.
+ * @author G de Beer
+ * @date 2019-02-17
+ */
 function verify() {
     const btnTable = document.querySelector('#tbl');
     const msgDiv = document.querySelector('#msg');
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email'],
-        verified: ['SAFBC', 'OldMutual', 'VALR', 'BlockchainAcademy'],
+        requested: ['name', 'email', 'location'],
+        verified: ['SAFBC', 'OldMutual', 'VALR', 'BlockchainAcademy', 'GiftRedeemed'],
         notifications: true
     })
 
@@ -122,7 +137,7 @@ function verify() {
 
             count = 0;
             SAFBC = false;
-            OldMutual = true;
+            OldMutual = false;
             VALR = false;
             BlockchainAcademy = false;
             gift = false;
@@ -145,19 +160,22 @@ function verify() {
                     gift = true;
                 }
 
-                if (SAFBC && VALR && BlockchainAcademy && !gift) {
+                if (SAFBC && VALR && OldMutual && BlockchainAcademy && !gift) {
                     document.querySelector('#msg').innerHTML =
                         `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issuing your gift now!</p>`;
 
-                    uport.sendVerification({
-                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                        claim: {
-                            'GiftRedeemed': {
-                                'redeemerName': res.payload.name,
-                                'redeemerEmail': res.payload.email,
-                                'redeemedDate': `${new Date()}`
-                            }
+                    let claimData = {
+                        'GiftRedeemed': {
+                            'redeemerName': res.payload.name,
+                            'redeemerEmail': res.payload.email,
+                            'GotGift': true,
+                            'redeemedDate': `${new Date()}`
                         }
+                    }
+
+                    uport.sendVerification({
+                        exp: Math.floor(new Date().getTime() / 1000) + 300 * 24 * 60 * 60,
+                        claim: claimData
                     }).then(() => {
                         msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                             `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
@@ -167,20 +185,24 @@ function verify() {
                         `<p>Get back out there ${res.payload.name}. You have not yet completed the quest!.</br>Good hunting!</p>`;
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
-                    // logout(res.payload.name);
 
                 } else if (gift) {
                     document.querySelector('#msg').innerHTML =
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy it!</p>`;
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
-                    // logout(res.payload.name);
                 }
             });
 
         })
 }
 
+/**
+ * @description Log the user out and clear session data.
+ * @author G de Beer
+ * @date 2019-02-17
+ * @param {*} name Name for friendly screen message
+ */
 function logout(name) {
 
     uport.logout();
@@ -191,5 +213,24 @@ function logout(name) {
 
     setTimeout(location.reload(), 2000);
 
+}
 
+/**
+ * @description Log the delegate activity to firestore via cloud function.
+ * @author G de Beer
+ * @date 2019-02-17
+ * @param {*} visitor uPort claim data
+ */
+function logDelegate(visitor) {
+    var xhr = new XMLHttpRequest();
+    var data = JSON.stringify(visitor);
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    };
+    xhr.open("POST", "https://us-central1-veritydemo1.cloudfunctions.net/function-1");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("cache-control", "no-cache");
+    xhr.send(data);
 }
