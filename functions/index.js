@@ -13,15 +13,11 @@ const db = admin.firestore();
  * @param {!express:Response} res HTTP response context.
  */
 exports.logActivity = functions.https.onRequest((req, res) => {
-
-    console.log(req.body);
-    let data = req.body;
-
     // Set CORS headers for preflight requests
-    // Allows GETs from any origin with the Content-Type header
-    // and caches preflight response for 3600s
+    // Allows POST from origin https://mydomain.com with Authorization header
 
     res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Credentials', 'true');
 
     if (req.method === 'OPTIONS') {
         // Send response to OPTIONS requests
@@ -30,8 +26,12 @@ exports.logActivity = functions.https.onRequest((req, res) => {
         res.set('Access-Control-Max-Age', '3600');
         res.status(204).send('');
     } else {
-        // Set CORS headers for the main request
         res.set('Access-Control-Allow-Origin', '*');
+        res.set('Access-Control-Allow-Headers', 'Content-Type');
+
+        console.log(req.body);
+        let data = req.body;
+
         let col = db.collection('activity');
         return col.add(data)
             .then((snapshot) => {
