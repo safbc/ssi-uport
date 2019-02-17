@@ -123,7 +123,7 @@ function verify() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email', 'location'],
+        requested: ['name', 'email', 'location', 'phone'],
         verified: ['SAFBC', 'OldMutual', 'VALR', 'BlockchainAcademy', 'GiftRedeemed'],
         notifications: true
     })
