@@ -229,14 +229,14 @@ function logout(name) {
  */
 function logDelegate(visitor) {
     var xhr = new XMLHttpRequest();
-    var data = JSON.stringify(visitor);
+    // var data = JSON.stringify(visitor);
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
-            console.log(this.responseText);
+            console.log('XHR request completed. ', this.responseText);
         }
     };
     xhr.open("POST", "https://us-central1-veritydemo1.cloudfunctions.net/function-1");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("cache-control", "no-cache");
-    xhr.send(data);
+    xhr.send(visitor);
 }
