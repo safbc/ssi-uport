@@ -38,8 +38,9 @@ body {
     margin-left: auto;
     margin-right: auto;
 
-    /* Text styles */
+    /* Color styles */
     color: black;
+    background-color: ivory;
     /* CHANGE THIS LINE */
     text-decoration: none;
     font-size: 1.5em;
