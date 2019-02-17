@@ -16,9 +16,6 @@ body {
     /* Text styles */
     text-align: center;
     color: whitesmoke;
-    /* ADD THIS LINE */
-
-
 }
 
 .hero h1 {
@@ -37,12 +34,13 @@ body {
 
     /* Padding and margins */
     padding: 1em;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
 
-    /* Text styles */
+    /* Color styles */
     color: black;
+    background-color: ivory;
     /* CHANGE THIS LINE */
     text-decoration: none;
     font-size: 1.5em;
