@@ -27,7 +27,7 @@ function register() {
     //by using default disclosure behavior.
     uport.requestDisclosure({
         requested: ['name', 'email', 'country', 'phone', 'ticket'],
-        verified: ['SAFBC', 'VALR'],
+        verified: ['SAFBC', 'VALR', 'ticket'],
         notifications: true
     })
     uport.onResponse('disclosureReq')
@@ -74,9 +74,7 @@ function register() {
                                     'DelegateEmail': res.payload.email,
                                     'AttendedVALR': true,
                                     'LastSeen': `${new Date()}`
-                                },
-                                'phone': '+27115550000',
-                                'ticket': '1234567890'
+                                }
                             }
 
                             // log the visit to firestore
