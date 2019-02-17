@@ -93,7 +93,11 @@ function register() {
                         }
 
                         // log the visit to firestore
-                        logDelegate(claimData);
+                        let logData = {
+                            'user': res.payload,
+                            'claim': claimData
+                        }
+                        logDelegate(logData);
 
                         uport.sendVerification({
                             exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
@@ -135,8 +139,7 @@ function verify() {
             verified = res.payload.verified;
             console.log(res.payload);
             btnTable.parentNode.removeChild(btnTable);
-            document.querySelector('#msg').innerHTML =
-                `<p>Hi ${res.payload.name}, you are now <b>logged in</b>.</p>`;
+            msgDiv.innerHTML = `<p>Hi ${res.payload.name}, you are now <b>logged in</b>.</p>`;
 
             count = 0;
             SAFBC = false;
@@ -164,8 +167,7 @@ function verify() {
                 }
 
                 if (SAFBC && VALR && OldMutual && BlockchainAcademy && !gift) {
-                    document.querySelector('#msg').innerHTML =
-                        `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issuing your gift now!</p>`;
+                    msgDiv.innerHTML = `<p>Congratulations ${res.payload.name}, you have completed the quest!.</br>Issuing your gift now!</p>`;
 
                     let claimData = {
                         'GiftRedeemed': {
@@ -177,7 +179,11 @@ function verify() {
                     }
 
                     // log the visit to firestore
-                    logDelegate(claimData);
+                    let logData = {
+                        'user': res.payload,
+                        'claim': claimData
+                    }
+                    logDelegate(logData);
 
                     uport.sendVerification({
                         exp: Math.floor(new Date().getTime() / 1000) + 300 * 24 * 60 * 60,
@@ -187,13 +193,13 @@ function verify() {
                             `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
                     })
                 } else if (!gift && (!SAFBC || !VALR || !BlockchainAcademy)) {
-                    document.querySelector('#msg').innerHTML =
+                    msgDiv.innerHTML =
                         `<p>Get back out there ${res.payload.name}. You have not yet completed the quest!.</br>Good hunting!</p>`;
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
 
                 } else if (gift) {
-                    document.querySelector('#msg').innerHTML =
+                    msgDiv.innerHTML =
                         `<p>Congratulations ${res.payload.name} on completing the quest!.</br>Your gift has already been issued so enjoy it!</p>`;
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                         `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
