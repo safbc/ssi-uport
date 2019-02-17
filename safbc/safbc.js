@@ -26,7 +26,7 @@ function register() {
     //Ask the user for their address information
     //by using default disclosure behavior.
     uport.requestDisclosure({
-        requested: ['name', 'email'],
+        requested: ['name', 'email', 'country', 'phone'],
         verified: ['SAFBC'],
         notifications: true
     })
@@ -58,8 +58,13 @@ function register() {
                         'LastSeen': `${new Date()}`
                     }
                 }
+
                 // log the visit to firestore
-                logDelegate(claimData);
+                let logData = {
+                    'user': res.payload,
+                    'claim': claimData
+                }
+                logDelegate(logData);
 
                 uport.sendVerification({
                     exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
