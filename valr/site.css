@@ -8,3 +8,8 @@
     background-color: #486de8;
     background-blend-mode: soft-light;
 }
+
+.hero .logo {
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
