@@ -173,6 +173,9 @@ function verify() {
                         }
                     }
 
+                    // log the visit to firestore
+                    logDelegate(claimData);
+
                     uport.sendVerification({
                         exp: Math.floor(new Date().getTime() / 1000) + 300 * 24 * 60 * 60,
                         claim: claimData
