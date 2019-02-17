@@ -49,7 +49,7 @@ exports.logActivity = functions.https.onRequest((req, res) => {
             colStr = 'GiftRedeemed';
         }
 
-        let doc = db.collection(colStr);
+        let col = db.collection(colStr);
         return col.add(data)
             .then((snapshot) => {
                 console.log('db add successful', snapshot);
