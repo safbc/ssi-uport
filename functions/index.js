@@ -30,10 +30,11 @@ exports.logActivity = functions.https.onRequest((req, res) => {
 
         console.log(req.body);
         let data = req.body;
+        let did = data.user.did;
         let colStr = 'Activity';
 
-        let col = db.collection(colStr);
-        return col.add(data)
+        let doc = db.collection(colStr).doc(did);
+        return doc.set(data)
             .then((snapshot) => {
                 console.log('db add successful');
                 return res.status(200).send(snapshot);
