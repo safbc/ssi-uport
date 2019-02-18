@@ -67,7 +67,7 @@ function register() {
                         if (undefined === element.claim.OldMutual) {
                             console.log('OldMutual cred not issued yet');
                             msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for visiting the Old Mutual stand.</p>
+                                `<p>Thank you for visiting the Old Mutual stand.</p>
                             <p>You have been issued an attendance credential.<br/> 
                             Please continue your quest for all the other credentials.</p>`;
 
@@ -76,9 +76,7 @@ function register() {
                                     'DelegateDID': res.payload.did,
                                     'AttendedOldMutual': true,
                                     'LastSeen': `${new Date()}`
-                                },
-                                'phone': '+27115550000',
-                                'ticket': '1234567890'
+                                }
                             }
 
                             // log the visit to firestore
@@ -98,11 +96,11 @@ function register() {
                         } else {
                             console.log('OldMutual cred already issued');
                             msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for coming back to the Old Mutual stand.</p>
+                                `<p>Thank you for coming back to the Old Mutual stand.</p>
                             <p>You have already been issued an attendance credential.<br>
                             Please continue your quest for all the other credentials.</p>`;
-                        msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                            `<button class="btn" onclick="logout()">Logout</button>`;
+                            msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
+                                `<button class="btn" onclick="logout()">Logout</button>`;
                         }
                     }
 
