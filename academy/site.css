@@ -8,3 +8,7 @@
     background-color: darkred;
     background-blend-mode: soft-light;
 }
+
+.hero .info {
+    color: gray;
+}

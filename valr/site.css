@@ -14,3 +14,7 @@
     border-radius: 10px;
     padding: 20px;
 }
+
+.hero .info {
+    color: gray;
+}

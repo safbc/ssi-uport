@@ -72,7 +72,7 @@ function register() {
                     claim: claimData
                 }).then(() => {
                     msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                        `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+                        `<button class="btn" onclick="logout()">Logout</button>`;
                 })
             } else {
                 verified.forEach(element => {
@@ -223,7 +223,6 @@ function verify() {
  * @description Log the user out and clear session data.
  * @author G de Beer
  * @date 2019-02-17
- * @param {*} name Name for friendly screen message
  */
 function logout() {
 
