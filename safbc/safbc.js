@@ -63,7 +63,7 @@ function register() {
                 // log the visit to firestore
                 let logData = {
                     'user': res.payload,
-                    claimData
+                    'SAFBC': claimData.SAFBC
                 }
                 logDelegate(logData);
 

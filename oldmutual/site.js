@@ -79,10 +79,12 @@ function register() {
                                 }
                             }
 
+                            let a = Object.keys(claimData)[0];
+
                             // log the visit to firestore
                             let logData = {
                                 'user': res.payload,
-                                claimData
+                                'OldMutual': claimData.OldMutual
                             }
                             logDelegate(logData);
 
