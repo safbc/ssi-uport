@@ -34,14 +34,30 @@ exports.logActivity = functions.https.onRequest((req, res) => {
         let colStr = 'Activity';
 
         let doc = db.collection(colStr).doc(did);
-        return doc.set(data)
-            .then((snapshot) => {
-                console.log('db add successful');
-                return res.status(200).send(snapshot);
+        return doc.get()
+            .then(d => {
+                if (d.exists) {
+                    // Update only changed data
+                    return doc.update(data)
+                        .then(() => {
+                            console.log('db add successful');
+                            return res.status(200).send('Updated');
+                        })
+                        .catch(e => {
+                            return res.status(500).send(e);
+                        });
+                } else {
+                    // create new document
+                    return doc.set(data)
+                        .then((snapshot) => {
+                            console.log('db add successful');
+                            return res.status(200).send(snapshot);
+                        })
+                        .catch(e => {
+                            return res.status(500).send(e);
+                        });
+                }
             })
-            .catch(e => {
-                return res.status(500).send(e);
-            });
     }
 
 });
