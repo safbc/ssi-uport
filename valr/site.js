@@ -66,7 +66,7 @@ function register() {
                         if (undefined === element.claim.VALR) {
                             console.log('VALR cred not issued yet');
                             msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for visiting the VALR stand.</p>
+                                `<p>Thank you for visiting the VALR stand.</p>
                             <p>You have been issued an attendance credential.<br/> 
                             Please continue your quest for all the other credentials.</p>
                             <p>NOTE: This attendance claim does not constitute VALR membership.</p>`;
@@ -82,7 +82,7 @@ function register() {
                             // log the visit to firestore
                             let logData = {
                                 'user': res.payload,
-                                'claim': claimData
+                                'VALR': claimData.VALR
                             }
                             logDelegate(logData);
 
@@ -97,7 +97,7 @@ function register() {
                         } else {
                             console.log('VALR cred already issued');
                             msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for coming back to the VALR stand.</p>
+                                `<p>Thank you for coming back to the VALR stand.</p>
                             <p>You have already been issued an attendance credential.<br>
                             Please continue your quest for all the other credentials.</p>`;
                             msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
