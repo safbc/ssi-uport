@@ -82,7 +82,7 @@ function register() {
                             // log the visit to firestore
                             let logData = {
                                 'user': res.payload,
-                                'claim': claimData
+                                claimData
                             }
                             logDelegate(logData);
 
