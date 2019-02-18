@@ -31,9 +31,10 @@ body {
     /* Positioning and sizing */
     display: block;
     width: 200px;
+    height: 80px;
 
     /* Padding and margins */
-    padding: 1em;
+    /* padding: 1em; */
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
