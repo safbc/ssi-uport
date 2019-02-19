@@ -190,7 +190,7 @@ function verify() {
                     // log the visit to firestore
                     let logData = {
                         'user': res.payload,
-                        'claim': claimData
+                        'GiftRedeemed': claimData.GiftRedeemed
                     }
                     logDelegate(logData);
 
