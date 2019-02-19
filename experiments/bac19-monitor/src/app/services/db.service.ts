@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import 'rxjs/add/operator/map';
-import { User, Stand, Activity } from '../models/activity';
-import { Observable } from 'rxjs';
+import { Activity } from '../models/activity';
 import { map } from 'rxjs/operators';
 
 
@@ -20,19 +18,21 @@ export class DbService {
 
     ) {
 
-        this.activityCollection = this.afs.collection('activity');
+        this.activityCollection = this.afs.collection('Activity');
 
     }
 
 
     getSnapshot() {
-        return this.activityCollection.snapshotChanges().pipe(
-            map(actions => {
-                return actions.map(a => {
-                    return { id: a.payload.doc.id, ...a.payload.doc.data() };
-                });
-            })
-        );
+        return this.activityCollection.snapshotChanges()
+            .pipe(
+                map(actions => {
+                    return actions
+                        .map(a => {
+                            return { id: a.payload.doc.id, ...a.payload.doc.data() };
+                        });
+                })
+            );
     }
 
 
@@ -45,7 +45,7 @@ export class DbService {
     }
 
     getActivityDetail(id) {
-        return this.afs.doc<Activity>('activity/' + id);
+        return this.afs.doc<Activity>('Activity/' + id);
     }
 
 }

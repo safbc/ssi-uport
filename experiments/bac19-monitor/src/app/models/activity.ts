@@ -4,6 +4,7 @@ export interface Activity {
     VALR?: Stand;
     OldMutual?: Stand;
     BlockchainAcademy?: Stand;
+    GiftRedeemed?: any;
 }
 
 
@@ -22,6 +23,7 @@ export interface User {
     VALR?: Stand;
     OldMutual?: Stand;
     BlockchainAcademy?: Stand;
+    GiftRedeemed?: any;
 }
 
 export interface Stand {

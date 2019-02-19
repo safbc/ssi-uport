@@ -1,9 +1,56 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Two
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            Game Activity Stream
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+
+    <ion-card *ngFor="let item of activity | async">
+        <ion-card-content>
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img src="assets/icon/favicon.png">
+                </ion-avatar>
+                <ion-label>{{item.user.name}} </ion-label>
+                <p>{{item.user.did}}</p>
+            </ion-item>
+            <ion-item *ngIf="item.SAFBC">
+                <ion-icon name="ribbon" slot="end"></ion-icon>
+                <ion-label>SAFBC</ion-label>
+                <p>{{item.SAFBC.LastSeen}}</p>
+            </ion-item>
+            <ion-item *ngIf="item.VALR">
+                <ion-icon name="lock" slot="end"></ion-icon>
+                <ion-label>VALR</ion-label>
+                <p>{{item.VALR.LastSeen}}</p>
+            </ion-item>
+            <ion-item *ngIf="item.OldMutual">
+                <ion-icon name="finger-print" slot="end"></ion-icon>
+                <ion-label>Old Mutual</ion-label>
+                <p>{{item.OldMutual.LastSeen}}</p>
+            </ion-item>
+            <ion-item *ngIf="item.BlockchainAcademy">
+                <ion-icon name="school" slot="end"></ion-icon>
+                <ion-label>Blockchain Academy</ion-label>
+                <p>{{item.BlockchainAcademy.LastSeen}}</p>
+            </ion-item>
+            <ion-item *ngIf="item.GiftRedeemed">
+                <ion-icon name="gift" slot="end"></ion-icon>
+                <ion-label>Gift Redeemed</ion-label>
+                <p>{{item.GiftRedeemed.redeemedDate}}</p>
+            </ion-item>
+
+
+            <!-- <pre>{{ item.user | json }}</pre> -->
+            <!-- <pre>{{ item.SAFBC | json }}</pre>
+            <pre>{{ item.VALR | json }}</pre>
+            <pre>{{ item.OldMutual | json }}</pre>
+            <pre>{{ item.BlockchainAcademy | json }}</pre>
+            <pre>{{ item.GiftRedeemed | json }}</pre> -->
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

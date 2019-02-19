@@ -8,7 +8,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
+import { DbService } from './services/db.service';
+import { TabsPageModule } from './tabs/tabs.module';
+
 
 @NgModule({
     declarations: [
@@ -22,10 +25,12 @@ import { environment } from 'src/environments/environment.prod';
         AngularFireModule.initializeApp(environment.firebaseConfig),  // Add this
         AngularFirestoreModule,
         IonicModule.forRoot(),
-        AppRoutingModule
+        AppRoutingModule,
+        TabsPageModule
     ],
     providers: [
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        DbService
     ],
     bootstrap: [
         AppComponent
