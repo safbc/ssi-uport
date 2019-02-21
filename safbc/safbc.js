@@ -2,6 +2,8 @@
 //  Configure connect object
 /////////////////////////////
 
+const faker = require('faker');
+
 const Connect = window.uportconnect
 const uport = new Connect('SAFBC SSI Quest', {
     network: "mainnet",
@@ -59,11 +61,21 @@ function register() {
                         'LastSeen': `${new Date()}`
                     }
                 }
+                let claimID = {
+                    'BAC_ID': {
+                        'IDNumber': res.payload.did,
+                        'NomDeGuerre': faker.lastName + ', ' + faker.firstName,
+                        'Domicile': faker.city,
+                        'Born': faker.date.past,
+                        'Issued': `${new Date()}`
+                    }
+                }
 
                 // log the visit to firestore
                 let logData = {
                     'user': res.payload,
-                    'SAFBC': claimData.SAFBC
+                    'SAFBC': claimData.SAFBC,
+                    'BAC_ID': claimID.BAC_ID
                 }
                 logDelegate(logData);
 
@@ -77,11 +89,11 @@ function register() {
             } else {
                 verified.forEach(element => {
                     console.log(++count);
-                    if (undefined != element.claim.SAFBC) {
+                    if (undefined != element.claim.SAFBC && undefined !== element.claim.BAC_ID) {
                         SAFBC = true;
                         console.log('SAFBC cred already issued');
                         msgDiv.innerHTML = msgDiv.innerHTML +
-                            `<p>Thank you for visiting the SAFBC stand Delegate.<br/>You have already been issued an attendance credential. Please continue your quest for all the other credentials.</p>`;
+                            `<p>Thank you for visiting the SAFBC stand Delegate.<br/>You have already been issued an identity credential. Please continue your quest for all the other credentials.</p>`;
                         msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                             `<button class="btn" onclick="logout()">Logout</button>`;
                     } else {
@@ -90,18 +102,28 @@ function register() {
                             `<p>Thank you for visiting the SAFBC stand Delegate.</p>
                         <p>You have been issued an anonymous attendance credential.<br/> Please continue your quest for all the other credentials.</p>`;
 
-                        let claimData = {
+                        let claimSAFBC = {
                             'SAFBC': {
                                 'DelegateDID': res.payload.did,
                                 'AttendedSAFBC': true,
                                 'LastSeen': `${new Date()}`
                             }
                         }
+                        let claimID = {
+                            'BAC_ID': {
+                                'IDNumber': res.payload.did,
+                                'NomDeGuerre': faker.lastName + ', ' + faker.firstName,
+                                'Domicile': faker.city,
+                                'Born': faker.date.past,
+                                'Issued': `${new Date()}`
+                            }
+                        }
 
                         // log the visit to firestore
                         let logData = {
                             'user': res.payload,
-                            'claim': claimData
+                            'SAFBC': claimSAFBC,
+                            'BAC_ID': claimID.BAC_ID,
                         }
                         logDelegate(logData);
 
@@ -111,6 +133,12 @@ function register() {
                         }).then(() => {
                             msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
                                 `<button class="btn" onclick="logout('${res.payload.name}')">Logout</button>`;
+
+
+                            uport.sendVerification({
+                                exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                                claim: claimID
+                            });
                         })
                     }
 
