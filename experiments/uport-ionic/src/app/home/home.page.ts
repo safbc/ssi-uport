@@ -109,12 +109,10 @@ export class HomePage {
 
                             } else {
                                 console.log('OldMutual cred already issued');
-                                // msgDiv.innerHTML = msgDiv.innerHTML +
-                                // `<p>Thank you for coming back to the Old Mutual stand.</p>
-                                // <p>You have already been issued an attendance credential.<br>
-                                // Please continue your quest for all the other credentials.</p>`;
-                                // msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                                // `<button class="btn" onclick="logout()">Logout</button>`;
+                                this.msg = this.msg +
+                                    `<p>Thank you for coming back to the Old Mutual stand.</p>
+                                <p>You have already been issued an attendance credential.<br>
+                                Please continue your quest for all the other credentials.</p>`;
                             }
                         }
 
