@@ -13,6 +13,7 @@ export class HomePage {
 
     }
 
+    msg = '';
     loggedin = false;
     Connect = uportconnect;
     uport = new this.Connect('Old Mutual SSI Quest', {
@@ -39,9 +40,8 @@ export class HomePage {
                 const verified = res.payload.verified;
                 console.log(res.payload);
 
-                // btnTable.parentNode.removeChild(btnTable);
-
-                // msgDiv.innerHTML = `<p>Welcome Delegate, you are now logged in</p>`;
+                this.loggedin = true;
+                this.msg = `Welcome Delegate, you are now logged in`;
 
                 this.count = 0;
 
@@ -49,27 +49,23 @@ export class HomePage {
                     console.log('SAFBC cred not issued yet');
                     // document.querySelector('#msg').innerHTML =
                     // document.querySelector('#msg').innerHTML +
-                    // `<p>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!</p>`;
-
-                    // msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' + `<button class="btn" onclick="logout()">Logout</button>`;
+                    this.msg = this.msg + '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
 
                 } else {
                     verified.forEach(element => {
                         console.log(++this.count);
                         if (undefined === element.claim.SAFBC) {
                             console.log('SAFBC cred not issued yet');
-                            // msgDiv.innerHTML = msgDiv.innerHTML +
-                            // `<p>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!</p>`;
+                            this.msg = this.msg + '<br>I see you are eager to play the SSI Quest, '
+                            'but you must first please visit the SAFBC stand to start!';
 
-                            // msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                            // `<button class="btn" onclick="logout()">Logout</button>`;
                         } else {
                             if (undefined === element.claim.OldMutual) {
                                 console.log('OldMutual cred not issued yet');
-                                // msgDiv.innerHTML = msgDiv.innerHTML +
-                                // `<p>Thank you for visiting the Old Mutual stand.</p>
-                                // <p>You have been issued an attendance credential.<br/> 
-                                // Please continue your quest for all the other credentials.</p>`;
+                                this.msg = this.msg + 
+                                `<p>Thank you for visiting the Old Mutual stand.</p>
+                                <p>You have been issued an attendance credential.<br/>
+                                Please continue your quest for all the other credentials.</p>`;
 
                                 // tslint:disable-next-line:prefer-const
                                 let claimData = {
@@ -119,9 +115,7 @@ export class HomePage {
         this.uport.logout();
         this.uport.reset();
 
-        // document.querySelector('#msg').innerHTML = '<p>Goodbye... </p>';
-
-        // setTimeout(location.reload(), 2000);
+        this.loggedin = false;
 
     }
 

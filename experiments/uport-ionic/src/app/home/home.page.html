@@ -9,8 +9,7 @@
                 </div>
             </ion-col>
             <ion-col size="12" text-center>
-                <ng-container>
-
+                <ng-container *ngIf="!loggedin">
                     <ion-button (click)="checkIn()" color="primary" size="large">CHECK-IN</ion-button>
                 </ng-container>
                 <ng-container *ngIf="loggedin">
@@ -21,6 +20,11 @@
                     This will be recorded with your DID<sup>*</sup><br>
                     <sup>*</sup>DID = Decentralised Identifier
                 </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                {{ msg }}
             </ion-col>
         </ion-row>
     </ion-grid>
