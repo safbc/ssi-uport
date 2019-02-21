@@ -1,0 +1,30 @@
+<ion-content padding text-center color="none">
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" text-center>
+                <div>
+                    <img src="/assets/Old-Mutual-22seven-logo.png" alt="old mutual 22-seven logo">
+                    <h1>THE GREAT SSI QUEST</h1>
+                    <h2>Welcome to <br>Old Mutual & 22seven</h2>
+                </div>
+            </ion-col>
+            <ion-col size="12" text-center>
+                <ng-container>
+
+                    <ion-button (click)="checkIn()" color="primary" size="large">CHECK-IN</ion-button>
+                </ng-container>
+                <ng-container *ngIf="loggedin">
+                    <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
+                </ng-container>
+                <div>
+                    Check-in to get issued your attendance claim.<br>
+                    This will be recorded with your DID<sup>*</sup><br>
+                    <sup>*</sup>DID = Decentralised Identifier
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer text-center padding>
+    <img src="/assets/blockchain-africa-conf-logo.png" alt="blockchain africa conf logo">
+</ion-footer>
