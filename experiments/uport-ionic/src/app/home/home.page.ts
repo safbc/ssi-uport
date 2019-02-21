@@ -49,21 +49,22 @@ export class HomePage {
                     console.log('SAFBC cred not issued yet');
                     // document.querySelector('#msg').innerHTML =
                     // document.querySelector('#msg').innerHTML +
-                    this.msg = this.msg + '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                    this.msg = this.msg +
+                        '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
 
                 } else {
                     verified.forEach(element => {
                         console.log(++this.count);
                         if (undefined === element.claim.SAFBC) {
                             console.log('SAFBC cred not issued yet');
-                            this.msg = this.msg + '<br>I see you are eager to play the SSI Quest, '
-                            'but you must first please visit the SAFBC stand to start!';
+                            this.msg = this.msg +
+                                '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
 
                         } else {
                             if (undefined === element.claim.OldMutual) {
                                 console.log('OldMutual cred not issued yet');
-                                this.msg = this.msg + 
-                                `<p>Thank you for visiting the Old Mutual stand.</p>
+                                this.msg = this.msg +
+                                    `<p>Thank you for visiting the Old Mutual stand.</p>
                                 <p>You have been issued an attendance credential.<br/>
                                 Please continue your quest for all the other credentials.</p>`;
 
@@ -107,7 +108,7 @@ export class HomePage {
                     });
                 }
 
-            })
+            });
     }
 
     logout() {
