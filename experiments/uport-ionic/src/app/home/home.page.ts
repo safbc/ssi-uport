@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 
 declare var uportconnect: any;
 declare var faker: any;
@@ -9,8 +10,11 @@ declare var faker: any;
     styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+    loading: HTMLIonLoadingElement;
 
-    constructor() { }
+    constructor(
+        public loadingController: LoadingController
+    ) { }
 
     msg = '';
     loggedin = false;
@@ -29,10 +33,17 @@ export class HomePage {
             requested: ['name'],
             verified: ['SAFBC', 'OldMutual', 'BAC_ID'],
             notifications: true
-        });
+        })
+            .catch((e) => {
+                this.loading.dismiss();
+                console.log(e);
+            });
+
+        this.presentLoading();
 
         this.uport.onResponse('disclosureReq')
             .then(res => {
+                this.loading.dismiss();
                 const did = res.payload.did;
                 const json = JSON.stringify(res.payload);
                 const verified = res.payload.verified;
@@ -119,6 +130,10 @@ export class HomePage {
                     });
                 }
 
+            })
+            .catch((e) => {
+                this.loading.dismiss();
+                console.log(e);
             });
     }
 
@@ -128,15 +143,28 @@ export class HomePage {
         this.uport.reset();
 
         this.loggedin = false;
+        this.learning = false;
+        this.msg = null;
+
+        location.reload();
 
     }
 
+    async presentLoading() {
+        this.loading = await this.loadingController.create({
+            spinner: 'circles',
+            message: 'Please wait...',
+            translucent: true,
+        });
+        return await this.loading.present();
+    }
+
     /**
- * @description Log the delegate activity to firestore via cloud function.
- * @author G de Beer
- * @date 2019-02-17
- * @param visitor uPort claim data
- */
+    * @description Log the delegate activity to firestore via cloud function.
+    * @author G de Beer
+    * @date 2019-02-17
+    * @param visitor uPort claim data
+    */
     logDelegate(visitor) {
         const xhr = new XMLHttpRequest();
         const data = JSON.stringify(visitor);
