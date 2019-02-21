@@ -23,8 +23,14 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col size="12">
+            <ion-col size="12" class="msg">
                 {{ msg }}
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="learning">
+            <ion-col size="12" class="learning">
+                Imagine if it was this simple to share your identity<br>
+                (and receive FICA credentials) with any bank or insurer!
             </ion-col>
         </ion-row>
     </ion-grid>

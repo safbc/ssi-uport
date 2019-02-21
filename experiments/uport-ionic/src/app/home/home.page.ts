@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 declare var uportconnect: any;
+declare var faker: any;
 
 @Component({
     selector: 'app-home',
@@ -9,27 +10,24 @@ declare var uportconnect: any;
 })
 export class HomePage {
 
-    constructor() {
-
-    }
+    constructor() { }
 
     msg = '';
     loggedin = false;
+    learning = false;
     Connect = uportconnect;
     uport = new this.Connect('Old Mutual SSI Quest', {
         network: 'mainnet',
         profileImage: { '/': '/ipfs/QmbWR7ZV7QhSnjmfGKoiT5wmvqLjSBFT1msFvMKgCdYWK5' },
         bannerImage: { '/': '/ipfs/Qmbcxvpf7A4wshhZtoPVyXioED7c33sDrJdMjFNqAx6gFp' },
-        description: 'Old Mutual @ Blockchain Africa 2019 Conference'
+        description: 'Old Mutual & 22seven @ Blockchain Africa 2019 Conference'
     });
     count: number;
 
     checkIn() {
-        // Ask the user for their address information
-        // by using default disclosure behavior.
         this.uport.requestDisclosure({
             requested: ['name'],
-            verified: ['SAFBC', 'OldMutual'],
+            verified: ['SAFBC', 'OldMutual', 'BAC_ID'],
             notifications: true
         });
 
@@ -55,10 +53,11 @@ export class HomePage {
                 } else {
                     verified.forEach(element => {
                         console.log(++this.count);
-                        if (undefined === element.claim.SAFBC) {
-                            console.log('SAFBC cred not issued yet');
+                        if (undefined === element.claim.NationalID) {
+                            console.log('ID cred not issued yet');
                             this.msg = this.msg +
-                                '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                                `I see you are eager to play the SSI Quest,
+                                 but you must first please visit the SAFBC stand to get your own #BAC-ID!`;
 
                         } else {
                             if (undefined === element.claim.OldMutual) {
@@ -68,12 +67,20 @@ export class HomePage {
                                 <p>You have been issued an attendance credential.<br/>
                                 Please continue your quest for all the other credentials.</p>`;
 
-                                // tslint:disable-next-line:prefer-const
-                                let claimData = {
+                                const claimData = {
                                     'OldMutual': {
                                         'DelegateDID': res.payload.did,
                                         'AttendedOldMutual': true,
                                         'LastSeen': `${new Date()}`
+                                    }
+                                };
+
+                                const claimKYC = {
+                                    'OldMutualKYC': {
+                                        'IDNumber': res.payload.BAC_ID.IDNumber,
+                                        'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
+                                        'Domicile': res.payload.BAC_ID.Domicile,
+                                        'Issued': `${new Date()}`
                                     }
                                 };
 
@@ -82,7 +89,8 @@ export class HomePage {
                                 // log the visit to firestore
                                 const logData = {
                                     'user': res.payload,
-                                    'OldMutual': claimData.OldMutual
+                                    'OldMutual': claimData.OldMutual,
+                                    'OldMutualKYC': claimKYC.OldMutualKYC
                                 };
 
                                 this.logDelegate(logData);
@@ -91,9 +99,14 @@ export class HomePage {
                                     exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
                                     claim: claimData
                                 }).then(() => {
-                                    // msgDiv.innerHTML = msgDiv.innerHTML + '<br/>' +
-                                    // `<button class="btn" onclick="logout()">Logout</button>`;
+                                    this.uport.sendVerification({
+                                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                                        claim: claimKYC
+                                    });
                                 });
+
+                                this.learning = true;
+
                             } else {
                                 console.log('OldMutual cred already issued');
                                 // msgDiv.innerHTML = msgDiv.innerHTML +
