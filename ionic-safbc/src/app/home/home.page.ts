@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
+import * as faker from 'faker';
 
 declare var uportconnect: any;
-declare var faker: any;
 
 @Component({
     selector: 'app-home',
@@ -12,26 +12,41 @@ declare var faker: any;
 export class HomePage {
     loading: HTMLIonLoadingElement;
 
+    gift = false;
+    BlockchainAcademy = false;
+    VALR = false;
+    OldMutual = false;
+    SAFBC = false;
+    BAC_ID = false;
+    loggedin = false;
+    learning = false;
+    checkedin = false;
+    completed = false;
+    notcompleted = false;
+    msg = '';
+    firstName = 'UnLast';
+    middleName = 'UnMiddle';
+    lastName = 'UnLast';
+    name = 'UnPerson';
+
+    Connect = uportconnect;
+    uport = new this.Connect('SAFBC SSI Quest', {
+        network: 'mainnet',
+        profileImage: { '/': '/ipfs/QmaAroK3Mrxzi2rpTKvLyfGfWfAnNGNKrKpQXmwWg2F54b' },
+        bannerImage: { '/': '/ipfs/QmWeN9UFxU5mKWzuEXKuJTcPECkDa8MCJo95rCTGAchDQW' },
+        description: 'SAFBC Stand @ Blockchain Africa 2019 Conference'
+    });
+    count: number;
+
     constructor(
         public loadingController: LoadingController
     ) { }
 
-    msg = '';
-    loggedin = false;
-    learning = false;
-    Connect = uportconnect;
-    uport = new this.Connect('Old Mutual SSI Quest', {
-        network: 'mainnet',
-        profileImage: { '/': '/ipfs/QmbWR7ZV7QhSnjmfGKoiT5wmvqLjSBFT1msFvMKgCdYWK5' },
-        bannerImage: { '/': '/ipfs/Qmbcxvpf7A4wshhZtoPVyXioED7c33sDrJdMjFNqAx6gFp' },
-        description: 'Old Mutual & 22seven @ Blockchain Africa 2019 Conference'
-    });
-    count: number;
 
     checkIn() {
         this.uport.requestDisclosure({
             requested: ['name'],
-            verified: ['SAFBC', 'OldMutual', 'BAC_ID'],
+            verified: ['SAFBC', 'BAC_ID'],
             notifications: true
         })
             .catch((e) => {
@@ -49,85 +64,64 @@ export class HomePage {
                 const verified = res.payload.verified;
                 console.log(res.payload);
 
+
+
                 this.loggedin = true;
-                this.msg = `Welcome Delegate, you are now logged in`;
+                this.learning = true;
+                // this.msg = `Welcome Delegate, you are now logged in`;
 
                 this.count = 0;
 
                 if (verified.length === 0) {
                     console.log('SAFBC cred not issued yet');
-                    // document.querySelector('#msg').innerHTML =
-                    // document.querySelector('#msg').innerHTML +
-                    this.msg = this.msg +
-                        '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+
+                    this.firstName = faker.name.firstName();
+                    this.middleName = faker.internet.userName();
+                    this.lastName = faker.name.lastName();
+
+                    this.name = this.firstName + ` "${this.middleName}" ` + this.lastName;
+                    this.learning = false;
+
+                    this.issueCreds(res);
 
                 } else {
+                    let _id = false;
+                    this.learning = false;
+
                     verified.forEach(element => {
                         console.log(++this.count);
-                        if (undefined === element.claim.NationalID) {
-                            console.log('ID cred not issued yet');
-                            this.msg = this.msg +
-                                `I see you are eager to play the SSI Quest,
-                                 but you must first please visit the SAFBC stand to get your own #BAC-ID!`;
+                        console.log(element.claim);
+
+                        if (undefined === element.claim.BAC_ID) {
+                            console.log('ID cred not found yet');
 
                         } else {
-                            if (undefined === element.claim.OldMutual) {
-                                console.log('OldMutual cred not issued yet');
-                                this.msg = this.msg +
-                                    `<p>Thank you for visiting the Old Mutual stand.</p>
-                                <p>You have been issued an attendance credential.<br/>
-                                Please continue your quest for all the other credentials.</p>`;
+                            console.log('ID cred already issued');
+                            _id = true;
 
-                                const claimData = {
-                                    'OldMutual': {
-                                        'DelegateDID': res.payload.did,
-                                        'AttendedOldMutual': true,
-                                        'LastSeen': `${new Date()}`
-                                    }
-                                };
+                            this.name = res.payload.BAC_ID.NomDeGuerre;
 
-                                const claimKYC = {
-                                    'OldMutualKYC': {
-                                        'IDNumber': res.payload.BAC_ID.IDNumber,
-                                        'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
-                                        'Domicile': res.payload.BAC_ID.Domicile,
-                                        'Issued': `${new Date()}`
-                                    }
-                                };
+                            const nameArray = this.name.split(' ');
+                            this.firstName = nameArray[0];
+                            this.middleName = nameArray[1];
+                            this.lastName = nameArray[2];
 
-                                const a = Object.keys(claimData)[0];
+                            this.checkedin = true;
 
-                                // log the visit to firestore
-                                const logData = {
-                                    'user': res.payload,
-                                    'OldMutual': claimData.OldMutual,
-                                    'OldMutualKYC': claimKYC.OldMutualKYC
-                                };
-
-                                this.logDelegate(logData);
-
-                                this.uport.sendVerification({
-                                    exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                    claim: claimData
-                                }).then(() => {
-                                    this.uport.sendVerification({
-                                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                        claim: claimKYC
-                                    });
-                                });
-
-                                this.learning = true;
-
-                            } else {
-                                console.log('OldMutual cred already issued');
-                                this.msg = this.msg +
-                                    `<p>Thank you for coming back to the Old Mutual stand.</p>
-                                <p>You have already been issued an attendance credential.<br>
-                                Please continue your quest for all the other credentials.</p>`;
-                            }
                         }
 
                     });
+                    if (!_id) {
+                        console.log('No ID was found at all. Creating new credentials');
+                        this.firstName = faker.name.firstName();
+                        this.middleName = faker.internet.userName();
+                        this.lastName = faker.name.lastName();
+
+                        this.name = this.firstName + ` "${this.middleName}" ` + this.lastName;
+
+                        this.checkedin = true;
+                        this.issueCreds(res);
+                    }
                 }
 
             })
@@ -137,6 +131,152 @@ export class HomePage {
             });
     }
 
+    issueCreds(res) {
+        const claimData = {
+            'SAFBC': {
+                'DelegateDID': res.payload.did,
+                'AttendedSAFBC': true,
+                'LastSeen': `${new Date()}`
+            }
+        };
+
+        let dob = faker.date.past(50, new Date('Sat Sep 20 1992 21:35:02 GMT+0200 (CEST)'));
+        dob = dob.getFullYear() + '-' + (dob.getMonth() + 1) + '-' + dob.getDate();  // First month is "1"
+
+        const claimID = {
+            'BAC_ID': {
+                'IDNumber': res.payload.did,
+                'NomDeGuerre': this.name,
+                'Domicile': faker.address.city(),
+                'Born': dob,
+                'Issued': `${new Date()}`
+            }
+        };
+
+        // log the visit to firestore
+        const logData = {
+            'user': res.payload,
+            'SAFBC': claimData.SAFBC,
+            'BAC_ID': claimID.BAC_ID
+        };
+
+        this.logDelegate(logData);
+
+        this.uport.sendVerification({
+            exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+            claim: claimData
+        }).then(() => {
+            this.uport.sendVerification({
+                exp: Math.floor(new Date().getTime() / 1000) + 365 * 24 * 60 * 60,
+                claim: claimID
+            });
+            this.learning = false;
+            this.checkedin = true;
+        });
+    }
+
+    verify() {
+        this.uport.requestDisclosure({
+            requested: ['name', 'email'],
+            verified: ['SAFBC', 'OldMutual', 'VALR', 'BlockchainAcademy', 'GiftRedeemed', 'BAC_ID'],
+            notifications: true
+        })
+            .catch((e) => {
+                this.loading.dismiss();
+                console.log(e);
+            });
+
+        this.presentLoading();
+
+        this.uport.onResponse('disclosureReq')
+            .then(res => {
+                const _did = res.payload.did;
+                const _jsonPayload = JSON.stringify(res.payload);
+                const verified = res.payload.verified;
+                console.log(res.payload);
+
+                let count = 0;
+
+                this.loggedin = true;
+
+                this.SAFBC = false;
+                this.OldMutual = false;
+                this.VALR = false;
+                this.BlockchainAcademy = false;
+                this.BAC_ID = false;
+                this.gift = false;
+
+                verified.forEach(element => {
+                    console.log(++count);
+                    if (undefined !== element.claim.SAFBC) {
+                        this.SAFBC = true;
+                    }
+                    if (undefined !== element.claim.BAC_ID) {
+                        this.BAC_ID = true;
+                    }
+                    if (undefined !== element.claim.OldMutual) {
+                        this.OldMutual = true;
+                    }
+                    if (undefined !== element.claim.VALR) {
+                        this.VALR = true;
+                    }
+                    if (undefined !== element.claim.BlockchainAcademy) {
+                        this.BlockchainAcademy = true;
+                    }
+                    if (undefined !== element.claim.GiftRedeemed) {
+                        this.gift = true;
+                    }
+
+                    if (this.SAFBC && this.BAC_ID && this.VALR && this.OldMutual && this.BlockchainAcademy && !this.gift) {
+
+                        // TODO: Call webservice to double check if gift wasn't already issued but credential deleted.
+                        // using the _did  value
+
+                        this.completed = true;
+
+                        const claimData = {
+                            'GiftRedeemed': {
+                                'redeemerName': res.payload.name,
+                                'redeemerEmail': res.payload.email,
+                                'redeemerDID': res.payload.did,
+                                'GotGift': true,
+                                'redeemedDate': `${new Date()}`
+                            }
+                        };
+
+                        // log the visit to firestore
+                        const logData = {
+                            'user': res.payload,
+                            'GiftRedeemed': claimData.GiftRedeemed
+                        };
+                        this.logDelegate(logData);
+
+                        this.uport.sendVerification({
+                            exp: Math.floor(new Date().getTime() / 1000) + 300 * 24 * 60 * 60,
+                            claim: claimData
+                        }).then(() => {
+                            // Show completed response
+                            this.completed = true;
+                        });
+
+
+                    } else if (!this.gift && (!this.SAFBC || !this.BAC_ID || !this.OldMutual || !this.VALR || !this.BlockchainAcademy)) {
+                        // Show not completed response
+                        this.notcompleted = true;
+
+                    } else if (this.gift) {
+                        // Fall through to show gift already redeemed response
+
+                    }
+
+                });
+
+            });
+
+
+    }
+
+
     logout() {
 
         this.uport.logout();
@@ -144,6 +284,8 @@ export class HomePage {
 
         this.loggedin = false;
         this.learning = false;
+        this.checkedin = false;
+        this.completed = false;
         this.msg = null;
 
         location.reload();
