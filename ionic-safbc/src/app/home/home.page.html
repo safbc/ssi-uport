@@ -1,46 +1,146 @@
-<ion-content padding text-center color="none">
+<ion-content padding color="none">
     <ion-grid>
         <ion-row>
             <ion-col size="12" text-center>
                 <div>
-                    <img src="/assets/Old-Mutual-22seven-logo.png" alt="old mutual 22-seven logo">
-                    <h1>THE GREAT SSI QUEST</h1>
-                    <h2>Welcome to <br>Old Mutual & 22seven</h2>
+                    <img src="/assets/SAFBC.png" alt="old mutual 22-seven logo">
+
+                    <h2>Welcome to the South African Financial Block Consortium</h2>
                 </div>
-            </ion-col>
-            <ion-col size="12" text-center>
-                <ng-container *ngIf="!loggedin">
-                    <ion-button (click)="checkIn()" color="primary" size="large">CHECK-IN</ion-button>
-                </ng-container>
-                <ng-container *ngIf="loggedin">
-                    <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
-                </ng-container>
                 <div>
-                    Check-in to get issued your attendance claim.<br>
-                    This will be recorded with your DID<sup>*</sup><br>
-                    <sup>*</sup>DID = Decentralised Identifier
+                    <p>The South African Financial Blockchain Consortium (SAFBC) aims to demonstrate the transformative
+                        potential of blockchain technology for the South African financial industry. <br>Our Membership
+                        is comprised of banks, financial markets infrastructure players and regulators as well as other
+                        institutions involved in the financial services industry.</p>
+
+                    <p>The SAFBC is proud to be driving the awareness and adoption of Self Sovereign Identity (SSI) in
+                        South Africa. </p>
+
+                    <p class="action">Install the <b>uPort</b> app from your phone appstore and start your own SSI
+                        journey now<br> <span class="ital">...there is a REWARD waiting for you at the end!</span> </p>
                 </div>
             </ion-col>
         </ion-row>
+    </ion-grid>
+    <ion-grid>
         <ion-row>
-            <ion-col size="12" class="msg">
-                {{ msg }}
+            <ion-col size="12" size-md>
+                <ion-row>
+                    <ion-col size-md="10" offset-md="1">
+                        <h1>THE GREAT SSI QUEST</h1>
+                        <p>Self-Sovereign Identity is the principle where all identity data about a user (called
+                            attestations) is under their own control.</p>
+                        <p>SSI compliant Wallets, then enable the secure sharing of all or just part of that data
+                            (called Selective Disclosure)
+                            with any requesting party.</p>
+
+                        <p>
+                            To demonstrate this in practice we at the SAFBC have built a little game that will
+                            guide to through a few of the many possible interactions to which digital identity will
+                            have a
+                            profound impact in our lives in years to come.
+                        </p>
+                    </ion-col>
+                </ion-row>
             </ion-col>
-        </ion-row>
-        <ion-row *ngIf="learning">
-            <ion-col size="8" class="learning" offset="2">
-                <p>The South African Financial Blockchain Consortium (SAFBC) aims to demonstrate the transformative
-                    potential of blockchain technology for the South African financial industry. The consortium aims to
-                    educate and to bring the benefits of blockchain technology to the industry for the benefit of the
-                    entire country. Our membership is comprised of banks, financial markets infrastructure players and
-                    regulators as well as other institutions involved in the financial services industry.</p>
+            <ion-col size="12" size-md>
+                <ion-grid *ngIf="!loggedin">
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-row>
+                                <ion-col size="6">
+                                    <p>
+                                        In the first stage of your journey, we will issue you a <b>BlockchainAfrica
+                                            Identity (BAC_ID)</b> credential which will be requested at each subsequent
+                                        journey interaction.
+                                    </p>
+                                    <p>This 'Identity' credential can be thought of as a digital version of your
+                                        ID/passport or any other identification card you have been issued before.
+                                    </p>
+                                </ion-col>
+                                <ion-col size="6">
+                                    <p>
+                                        Once you have completed your quest to collect the 3 other attestations from our
+                                        exhibition partners, you can verify and claim your REWARD here.
+                                    </p>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="4" offset="1">
+                                    <ion-button (click)="checkIn()" color="primary" size="full">START SSI JOURNEY</ion-button>
+                                </ion-col>
+                                <ion-col size="2">
 
-                <p>The SAFBC is proud to be driving the awareness and adoption of Self Sovereign Identity (SSI) in
-                    South Africa. SSI enables claims, proofs, and attestations where the sharing of data is safer for
-                    both the identity provider and recipient.</p>
+                                </ion-col>
+                                <ion-col size="4">
+                                    <ion-button (click)="verify()" color="primary" size="full">COMPLETE JOURNEY</ion-button>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
 
-                <p>Try our SSI journey at the Blockchain Africa Conference using the uPort App ... there is CHOCOLATE
-                    waiting for you at the end!</p>
+                    </ion-row>
+                </ion-grid>
+                <ion-grid *ngIf="loggedin">
+                    <ion-row>
+                        <ion-col size-md="10" offset-md="1" *ngIf="learning">
+                            <p>
+                                Welcome delegate. You are now logged in.
+                            </p>
+                            <p>
+                                Please wait while we mint your new <b>BlockchainAfrica Identity (BAC_ID)</b>
+                                digital
+                                credential. This will be unique to you.
+                            </p>
+                        </ion-col>
+                        <ion-col size-md="10" offset-md="1" *ngIf="checkedin">
+                            <p>
+                                Congrats {{ name }}!
+                            </p>
+                            <p>
+                                You now have a newly minted digital <b>BlockchainAfrica Identity
+                                    (BAC_ID)</b> credential. It is unique to you and could only have been iisued to you
+                                due to your physical presence at this stand.
+                            </p>
+                            <p>
+                                Proceed now {{ firstName }}, on your quest to collect the 3 other attestations from our
+                                exhibition partners, and learn more about the other uses of your Digital ID.
+                            </p>
+                        </ion-col>
+                        <ion-col size-md="10" offset-md="1" *ngIf="completed">
+                            <p>
+                                Thanks for playing our game {{ name }}, and enjoy your reward!
+                            </p>
+                            <p>
+                                We hope you have also learned a little about how Self-sovereign Identity identity
+                                works.
+                            </p>
+                            <p>
+                                Can you see how systems like this can change and improve our real-world and digital
+                                interactions in the future?
+                            </p>
+                        </ion-col>
+                        <ion-col size-md="10" offset-md="1" *ngIf="gift">
+                            <p>
+                                Thanks for playing our game {{ name }}. We see that you have already enjoyed your
+                                reward!
+                            </p>
+                            <p>
+                                We hope you have also learned a little about how Self-sovereign Identity identity
+                                works.
+                            </p>
+                            <p>Can you see how systems like this can change and improve our real-world and digital
+                                interactions in the future?
+                            </p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            <ng-container>
+                                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
+                            </ng-container>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -51,8 +151,8 @@
             <ion-col size="6">
                 <img src="/assets/blockchain-africa-conf-logo.png" alt="blockchain africa conf logo" style="max-height: 50px;">
             </ion-col>
-            <ion-col size="6">
-                <img src="/assets/SAFBC.png" style="max-height: 50px;">
+            <ion-col size="6" style="padding-top: 20px;">
+                <img src="/assets/uport_Horizontal Logo.svg" style="height: 30px;">
             </ion-col>
         </ion-row>
     </ion-grid>
