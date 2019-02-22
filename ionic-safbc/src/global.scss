@@ -12,19 +12,22 @@
 
 .hero {
     /* Background styles */
-    background-image: url('/assets/bg-finger-scan.jpg');
+    background-image: url('/assets/bg-silhoettes.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: darkgreen;
-    background-blend-mode: multiply;
-    color: antiquewhite;
+    background-color: rgb(19, 18, 18);
+    background-blend-mode: overlay;
+    color: snow;
 }
 
 .learning {
     font-size: larger;
-    font-style: italic;
+    // font-style: italic;
+
 }
 
-.msg {}
+.msg {
+    font-size: larger;
+}
