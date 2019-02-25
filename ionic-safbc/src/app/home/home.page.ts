@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import * as faker from 'faker';
+import { GotGift } from '../got-gift';
 
 declare var uportconnect: any;
 
@@ -36,6 +37,7 @@ export class HomePage {
         description: 'SAFBC Stand @ Blockchain Africa 2019 Conference'
     });
     count: number;
+    gotGift: boolean;
 
     constructor(
         public loadingController: LoadingController
@@ -226,6 +228,7 @@ export class HomePage {
                     if (this.SAFBC && this.BAC_ID && this.VALR && this.OldMutual && this.BlockchainAcademy && !this.gift) {
 
                         // TODO: Call webservice to double check if gift wasn't already issued but credential deleted.
+                        console.log('Gift result', this.checkGift(res.payload.did));
                         // using the _did  value
 
                         this.completed = true;
@@ -317,6 +320,30 @@ export class HomePage {
         // tslint:disable-next-line:quotemark
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(data);
+    }
+
+    checkGift(did) {
+        const xhr = new XMLHttpRequest();
+        const qry = {
+            "did": did
+        }
+        const data = JSON.stringify(qry);
+
+        // tslint:disable-next-line:quotemark
+        xhr.open("POST", "https://us-central1-veritydemo1.cloudfunctions.net/function-1");
+
+        // tslint:disable-next-line:quotemark
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(data);
+
+        return xhr.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                console.log('XHR request completed. ', this.responseText);
+                let res: GotGift = JSON.parse(this.responseText);
+                return res.gotGift;
+            }
+        };
+
     }
 
 }
