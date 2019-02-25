@@ -12,13 +12,13 @@
 
 .hero {
     /* Background styles */
-    background-image: url('/assets/bg-finger-scan.jpg');
+    background-image: url('/assets/bg-faces.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: darkgreen;
-    background-blend-mode: multiply;
+    background-color: #120200;
+    background-blend-mode: soft-light;
     color: antiquewhite;
 }
 
@@ -26,5 +26,3 @@
     font-size: larger;
     font-style: italic;
 }
-
-.msg {}

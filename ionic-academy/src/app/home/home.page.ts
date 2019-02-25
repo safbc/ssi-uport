@@ -12,26 +12,43 @@ declare var faker: any;
 export class HomePage {
     loading: HTMLIonLoadingElement;
 
+    gift = false;
+    BlockchainAcademy = false;
+    VALR = false;
+    OldMutual = false;
+    OldMutualKYC = false;
+    SAFBC = false;
+    BAC_ID = false;
+    loggedin = false;
+    learning = false;
+    checkedin = false;
+    completed = false;
+    notcompleted = false;
+    msg = 'You are now logged in and you did it without a user name or password.';
+    firstName = 'UnLast';
+    lastName = 'UnLast';
+    name = 'UnPerson';
+
+    Connect = uportconnect;
+    uport = new this.Connect('Blockchain Academy SSI Quest', {
+        network: 'mainnet',
+        profileImage: { '/': '/ipfs/QmaCkTXkM4uedpRGNQ1YHqUCLRkutpMbA9qaCtFN8fwxHR' },
+        bannerImage: { '/': '/ipfs/QmTpKQQ41JzXtTyWXMK6Edz9ogfpd7aj6PCEsbpzWmCSUF' },
+        description: 'Blockchain Academy @ Blockchain Africa 2019 Conference'
+    });
+    count: number;
+    CredsIssued: boolean;
+    SSIJourney101: boolean;
+    trainingComplete: boolean;
+
     constructor(
         public loadingController: LoadingController
     ) { }
 
-    msg = '';
-    loggedin = false;
-    learning = false;
-    Connect = uportconnect;
-    uport = new this.Connect('Old Mutual SSI Quest', {
-        network: 'mainnet',
-        profileImage: { '/': '/ipfs/QmbWR7ZV7QhSnjmfGKoiT5wmvqLjSBFT1msFvMKgCdYWK5' },
-        bannerImage: { '/': '/ipfs/Qmbcxvpf7A4wshhZtoPVyXioED7c33sDrJdMjFNqAx6gFp' },
-        description: 'Old Mutual & 22seven @ Blockchain Africa 2019 Conference'
-    });
-    count: number;
-
     checkIn() {
         this.uport.requestDisclosure({
             requested: ['name'],
-            verified: ['SAFBC', 'OldMutual', 'BAC_ID'],
+            verified: ['SAFBC', 'BAC_ID', 'VALR', 'OldMutual', 'BlockchainAcademy', 'SSIJourney101'],
             notifications: true
         })
             .catch((e) => {
@@ -50,7 +67,6 @@ export class HomePage {
                 console.log(res.payload);
 
                 this.loggedin = true;
-                this.msg = `Welcome Delegate, you are now logged in`;
 
                 this.count = 0;
 
@@ -58,76 +74,157 @@ export class HomePage {
                     console.log('SAFBC cred not issued yet');
                     // document.querySelector('#msg').innerHTML =
                     // document.querySelector('#msg').innerHTML +
-                    this.msg = this.msg +
-                        '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                    this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
 
                 } else {
                     verified.forEach(element => {
                         console.log(++this.count);
-                        if (undefined === element.claim.NationalID) {
-                            console.log('ID cred not issued yet');
-                            this.msg = this.msg +
-                                `I see you are eager to play the SSI Quest,
-                                 but you must first please visit the SAFBC stand to get your own #BAC-ID!`;
 
-                        } else {
-                            if (undefined === element.claim.OldMutual) {
-                                console.log('OldMutual cred not issued yet');
-                                this.msg = this.msg +
-                                    `<p>Thank you for visiting the Old Mutual stand.</p>
-                                <p>You have been issued an attendance credential.<br/>
-                                Please continue your quest for all the other credentials.</p>`;
+                        if (undefined !== element.claim.BAC_ID) {
+                            console.log('ID cred  issued ');
+                            this.BAC_ID = true;
+                        } else if (undefined !== element.claim.BlockchainAcademy) {
+                            console.log('BlockchainAcademy cred  issued already');
+                            this.BlockchainAcademy = true;
+                        } else if (undefined !== element.claim.SSIJourney101) {
+                            console.log('SSIJourney101 cred issued already');
+                            this.SSIJourney101 = true;
+                        } else if (undefined !== element.claim.SAFBC) {
+                            console.log('SAFBC cred issued');
+                            this.SAFBC = true;
+                        } else if (undefined !== element.claim.VALR) {
+                            console.log('Got VALR cred');
+                            this.VALR = true;
+                        } else if (undefined !== element.claim.OldMutual) {
+                            console.log('Got OldMutual cred');
+                            this.OldMutual = true;
+                        }
+                    });
 
-                                const claimData = {
-                                    'OldMutual': {
-                                        'DelegateDID': res.payload.did,
-                                        'AttendedOldMutual': true,
-                                        'LastSeen': `${new Date()}`
-                                    }
+                    if (!this.BAC_ID) {
+                        console.log('ID cred not issued yet');
+                        this.learning = false;
+                        this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                        return;
+                    } else {
+                        if (this.BlockchainAcademy && this.SSIJourney101) {
+                            console.log('BlockchainAcademy creds already issued');
+                            this.name = res.payload.BAC_ID.NomDeGuerre;
+                            this.CredsIssued = true;
+
+                            return;
+
+                        } else if (!this.BlockchainAcademy) {
+                            console.log('BlockchainAcademy creds not issued yet');
+                            this.msg = null;
+
+                            this.name = res.payload.BAC_ID.NomDeGuerre;
+                            this.firstName = this.name.split(' ').shift();
+                            this.lastName = this.name.split('').pop();
+
+                            const claimData = {
+                                'BlockchainAcademy': {
+                                    'DelegateDID': res.payload.did,
+                                    'AttendedBlockchainAcademy': true,
+                                    'LastSeen': `${new Date()}`
+                                }
+                            };
+
+                            const a = Object.keys(claimData)[0];
+
+                            // log the visit to firestore
+                            const logData = {
+                                'user': res.payload,
+                                'BlockchainAcademy': claimData.BlockchainAcademy
+                            };
+
+                            this.logDelegate(logData);
+
+                            this.uport.sendVerification({
+                                exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                                claim: claimData
+                            }).then(() => {
+                                if (this.SAFBC && this.VALR && this.OldMutual) {
+                                    this.learning = true;
+                                    const courseInfo = {
+                                        'CourseTitle': 'SAFBC SSI Journey',
+                                        'NQFLevel': 0,
+                                        'Campus': 'Wanderes Club, Johannesburg',
+                                        'Description': 'This certificate indicates that conferred has completed the SAFBC SSI Journey'
+                                    };
+
+                                    const claimCert = {
+                                        'SSIJourney101': {
+                                            'StudentDID': res.payload.did,
+                                            'StudentName': res.payload.BAC_ID.NomDeGuerre,
+                                            'CourseTaken': courseInfo,
+                                            'Issued': `${new Date()}`
+                                        }
+                                    };
+
+                                    // log the training to firestore
+                                    const logTraining = {
+                                        'user': res.payload,
+                                        'SSIJourney101': claimCert.SSIJourney101
+                                    };
+
+                                    this.logDelegate(logTraining);
+
+                                    this.trainingComplete = true;
+                                    this.uport.sendVerification({
+                                        exp: Math.floor(new Date().getTime() / 1000) + (4 * 60 * 60),
+                                        claim: claimCert
+                                    });
+                                } else {
+                                    this.learning = false;
+                                    this.msg = 'You now have your attendance credential, but you need to visit both Old Mutual and VALR first and return here to get your SSI Journey training certificate.';
+
+                                }
+                            });
+
+
+                        } else if (this.BlockchainAcademy && !this.SSIJourney101) {
+
+                            console.log('Certificate not issued yet');
+                            if (this.SAFBC && this.VALR && this.OldMutual) {
+
+                                const courseInfo = {
+                                    'CourseTitle': 'SAFBC SSI Journey',
+                                    'NQFLevel': 0,
+                                    'Campus': 'Wanderes Club, Johannesburg',
+                                    'Description': 'This certificate indicates that conferred has completed the SAFBC SSI Journey'
                                 };
 
-                                const claimKYC = {
-                                    'OldMutualKYC': {
-                                        'IDNumber': res.payload.BAC_ID.IDNumber,
-                                        'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
-                                        'Domicile': res.payload.BAC_ID.Domicile,
+                                const claimCert = {
+                                    'SSIJourney101': {
+                                        'StudentDID': res.payload.did,
+                                        'StudentName': res.payload.BAC_ID.NomDeGuerre,
+                                        'CourseTaken': courseInfo,
                                         'Issued': `${new Date()}`
                                     }
                                 };
 
-                                const a = Object.keys(claimData)[0];
-
-                                // log the visit to firestore
-                                const logData = {
+                                // log the training to firestore
+                                const logTraining = {
                                     'user': res.payload,
-                                    'OldMutual': claimData.OldMutual,
-                                    'OldMutualKYC': claimKYC.OldMutualKYC
+                                    'SSIJourney101': claimCert.SSIJourney101
                                 };
 
-                                this.logDelegate(logData);
+                                this.logDelegate(logTraining);
 
+                                this.trainingComplete = true;
                                 this.uport.sendVerification({
-                                    exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                    claim: claimData
-                                }).then(() => {
-                                    this.uport.sendVerification({
-                                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                        claim: claimKYC
-                                    });
+                                    exp: Math.floor(new Date().getTime() / 1000) + (4 * 60 * 60),
+                                    claim: claimCert
                                 });
-
-                                this.learning = true;
-
                             } else {
-                                console.log('OldMutual cred already issued');
-                                this.msg = this.msg +
-                                    `<p>Thank you for coming back to the Old Mutual stand.</p>
-                                <p>You have already been issued an attendance credential.<br>
-                                Please continue your quest for all the other credentials.</p>`;
+                                this.msg = 'You now have your attendance credential, but you need to visit both Old Mutual and VALR first and return here to get your SSI Journey training certificate.';
                             }
-                        }
 
-                    });
+                        }
+                    }
+
+
                 }
 
             })

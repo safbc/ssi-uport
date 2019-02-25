@@ -1,48 +1,90 @@
-<ion-content padding text-center color="none">
+<ion-content padding color="none">
     <ion-grid>
         <ion-row>
             <ion-col size="12" text-center>
                 <div>
-                    <img src="/assets/Old-Mutual-22seven-logo.png" alt="old mutual 22-seven logo">
+                    <img src="/assets/blockchain-academy.png" alt="valr logo" class="logo">
                     <h1>THE GREAT SSI QUEST</h1>
-                    <h2>Welcome to <br>Old Mutual & 22seven</h2>
-                </div>
-            </ion-col>
-            <ion-col size="12" text-center>
-                <ng-container *ngIf="!loggedin">
-                    <ion-button (click)="checkIn()" color="primary" size="large">CHECK-IN</ion-button>
-                </ng-container>
-                <ng-container *ngIf="loggedin">
-                    <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
-                </ng-container>
-                <div>
-                    Check-in to get issued your attendance claim.<br>
-                    This will be recorded with your DID<sup>*</sup><br>
-                    <sup>*</sup>DID = Decentralised Identifier
                 </div>
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col size="12" class="msg">
-                {{ msg }}
+            <ion-col size="12" size-md>
+                <p>
+                    We've all attended training of one kind or another;<br>
+                    from the traditional institutions like schools and universities to workplace training or online
+                    courses.
+                </p>
+                <p>
+                    To record our achievements in those studies, we are issued a certificate or testament.
+                    This could be a piece of official looking paper with a fancy bit of wax seal
+                    or a simple email with a PDF attached.
+                </p>
+                <b>Well done!</b>
+            </ion-col>
+            <ion-col size-md size="12">
+                <p>
+                    Now we apply for a job and we send of our CV stuffed with these bits of paper.<br>
+                </p>
+                <b>Paper that is very difficult to verify for the recruiter.</b>
+                <p>
+                    It could be that school you attended burn't down;<br>
+                    The online course website was shut down.<br>
+                    You got your training in another country that had a coup!
+                </p>
+                <p><b>But you could be dishonest and faked that certificate from a school that never existed!</b></p>
+            </ion-col>
+            <ion-col size="12" text-center *ngIf="!loggedin">
+                <p>When we use our own <b>Biometrically Authenticated Digital SSI Wallet</b>, Education institutions
+                    will be able to <b>securely</b>
+                    and <b>authoritatively</b> ISSUE these training certifications to us electronically.
+                    And as <b>OUR PROVEN DIGITAL SELVES</b> we can share those credentials <b>selectively</b> and <b>dynamically</b>
+                    with recruiters who can easily <b>verify</b> their origin and trustworthyness.</p>
+                <ion-button (click)="checkIn()" color="primary" size="large">GET YOUR SSI CERTIFICATE*</ion-button><br>
+                <span style="font-size:x-small">* Example only. Not officially issued by this intitution.</span>
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="learning">
-            <ion-col size="8" class="learning" offset="2">
-                Our digital identity spans far beyond a number or address. <br>
-                It can include qualifications, medical records and asset ownership...
+        <ion-row *ngIf="loggedin">
+            <ion-col size="12">
+                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
+                <p>
+                    {{ msg }}
+                </p>
+                <ng-container *ngIf="CredsIssued">
+                    <p>Hi {{ name }}.</p>
+                    <p>Thank you for coming back to the Blockchain Academy stand.<br>
+                        You have already been issued your Blockchain Academy attendance credential.</p>
+                    <p>Please continue your quest for all the other credentials.</p>
+                </ng-container>
             </ion-col>
         </ion-row>
+        <ng-container *ngIf="learning">
+            <ion-row *ngIf="loggedin">
+                <ion-col size="12" class="learning">
+                    <p><b>Hello {{ name}}! Just like that you were Authenticated without touching the keyboard!.</b></p>
+                    <p>Now no-one (even 'clever people') can trade that crypto of yours but you!<br></p>
+                    <p><i>Imagine if it was this simple to log in to all your favourite<br>
+                            websites and services.</i></p>
+                    <p>Did you know: You can even use this for real world access control!</p>
+                </ion-col>
+                <ion-col size="12">
+                    <p>Proceed now to the other exibitor stands to learn more.</p>
+                </ion-col>
+            </ion-row>
+        </ng-container>
     </ion-grid>
 </ion-content>
 <ion-footer text-center padding>
     <ion-grid fixed>
         <ion-row>
-            <ion-col size="6">
+            <ion-col size="4" style="padding-top: 20px;">
+                <img src="/assets/SAFBC.png" style="max-height: 30px;">
+            </ion-col>
+            <ion-col size="4">
                 <img src="/assets/blockchain-africa-conf-logo.png" alt="blockchain africa conf logo" style="max-height: 50px;">
             </ion-col>
-            <ion-col size="6">
-                <img src="/assets/SAFBC.png" style="max-height: 50px;">
+            <ion-col size="4" style="padding-top: 20px;">
+                <img src="/assets/uport_Horizontal Logo.svg" style="height: 30px;">
             </ion-col>
         </ion-row>
     </ion-grid>
