@@ -188,6 +188,7 @@ export class HomePage {
 
         this.uport.onResponse('disclosureReq')
             .then(res => {
+                this.loading.dismiss();
                 const _did = res.payload.did;
                 const _jsonPayload = JSON.stringify(res.payload);
                 const verified = res.payload.verified;
@@ -259,8 +260,9 @@ export class HomePage {
                         });
 
 
-                    } else if (!this.gift && (!this.SAFBC || !this.BAC_ID || !this.OldMutual || !this.VALR || !this.BlockchainAcademy)) {
+                    } else if (this.SAFBC && this.BAC_ID && !this.gift && (!this.OldMutual || !this.VALR || !this.BlockchainAcademy)) {
                         // Show not completed response
+                        this.name = res.payload.BAC_ID.NomDeGuerre;
                         this.notcompleted = true;
 
                     } else if (this.gift) {

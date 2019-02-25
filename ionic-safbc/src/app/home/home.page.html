@@ -106,6 +106,15 @@
                                 exhibition partners, and learn more about the other uses of your Digital ID.
                             </p>
                         </ion-col>
+                        <ion-col size="10" offset="1" *ngIf="notcompleted">
+                            <p>
+                                Hello again {{name}}
+                            </p>
+                            <p>
+                                It looks like you haven't completed all the quest items.<br>
+                                Why don't you head back out there and get the remainder of your attestations.
+                            </p>
+                        </ion-col>
                         <ion-col size-md="10" offset-md="1" *ngIf="completed">
                             <p>
                                 Thanks for playing our game {{ name }}, and enjoy your reward!
