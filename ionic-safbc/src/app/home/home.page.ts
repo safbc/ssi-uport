@@ -24,10 +24,9 @@ export class HomePage {
     completed = false;
     notcompleted = false;
     msg = '';
-    firstName = 'UnLast';
-    middleName = 'UnMiddle';
-    lastName = 'UnLast';
-    name = 'UnPerson';
+    firstName = 'First';
+    lastName = 'Last';
+    name = 'First Last';
 
     Connect = uportconnect;
     uport = new this.Connect('SAFBC SSI Quest', {
@@ -76,10 +75,9 @@ export class HomePage {
                     console.log('SAFBC cred not issued yet');
 
                     this.firstName = faker.name.firstName();
-                    this.middleName = faker.internet.userName();
                     this.lastName = faker.name.lastName();
 
-                    this.name = this.firstName + ` "${this.middleName}" ` + this.lastName;
+                    this.name = this.firstName + ' ' + this.lastName;
                     this.learning = false;
 
                     this.issueCreds(res);
@@ -103,8 +101,7 @@ export class HomePage {
 
                             const nameArray = this.name.split(' ');
                             this.firstName = nameArray[0];
-                            this.middleName = nameArray[1];
-                            this.lastName = nameArray[2];
+                            this.lastName = nameArray[1];
 
                             this.checkedin = true;
 
@@ -114,10 +111,9 @@ export class HomePage {
                     if (!_id) {
                         console.log('No ID was found at all. Creating new credentials');
                         this.firstName = faker.name.firstName();
-                        this.middleName = faker.internet.userName();
                         this.lastName = faker.name.lastName();
 
-                        this.name = this.firstName + ` "${this.middleName}" ` + this.lastName;
+                        this.name = this.firstName + ` ` + this.lastName;
 
                         this.checkedin = true;
                         this.issueCreds(res);
