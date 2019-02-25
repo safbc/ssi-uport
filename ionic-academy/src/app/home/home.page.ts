@@ -177,6 +177,7 @@ export class HomePage {
                                     });
                                 } else {
                                     this.learning = false;
+                                    // tslint:disable-next-line:max-line-length
                                     this.msg = 'You now have your attendance credential, but you need to visit both Old Mutual and VALR first and return here to get your SSI Journey training certificate.';
 
                                 }
@@ -218,6 +219,7 @@ export class HomePage {
                                     claim: claimCert
                                 });
                             } else {
+                                // tslint:disable-next-line:max-line-length
                                 this.msg = 'You now have your attendance credential, but you need to visit both Old Mutual and VALR first and return here to get your SSI Journey training certificate.';
                             }
 
