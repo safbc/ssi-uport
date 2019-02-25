@@ -102,6 +102,7 @@ export class HomePage {
                     } else {
                         if (this.OldMutual && this.OldMutualKYC) {
                             console.log('OldMutual creds already issued');
+                            this.name = res.payload.BAC_ID.NomDeGuerre;
                             this.CredsIssued = true;
 
                             return;
