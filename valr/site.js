@@ -67,7 +67,7 @@ function register() {
                             console.log('VALR cred not issued yet');
                             msgDiv.innerHTML = msgDiv.innerHTML +
                                 `<p>Thank you for visiting the VALR stand.</p>
-                            <p>You have been issued an attendance credential.<br/> 
+                            <p>You have been issued an attendance credential.<br/>
                             Please continue your quest for all the other credentials.</p>
                             <p>NOTE: This attendance claim does not constitute VALR membership.</p>`;
 
