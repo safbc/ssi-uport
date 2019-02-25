@@ -8,41 +8,61 @@
                     <h2>Welcome to <br>Old Mutual & 22seven</h2>
                 </div>
             </ion-col>
-            <ion-col size="12" text-center>
-                <ng-container *ngIf="!loggedin">
-                    <ion-button (click)="checkIn()" color="primary" size="large">CHECK-IN</ion-button>
+            <ion-col size="12" text-center *ngIf="!loggedin">
+                <p>One of the most promising use-cases for blockchain in financial services is Digital
+                    Identity and simplifying the "Know Your Customer (KYC)" process.</p>
+                <p>Good SSI will enable us to <b>securely</b> and <b>authoritatively</b> present all the required
+                    information for FICA in a simple digital interaction.</p>
+
+                <p>NOTE: When you share your information during the login process below, that you will also be
+                    requested to share your new <b>BAC_ID</b> credential.
+                </p>
+            </ion-col>
+            <ion-col size="12" text-center *ngIf="!loggedin">
+                <ion-button (click)="checkIn()" color="primary" size="large">LOG IN & FICA</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="loggedin">
+            <ion-col size="12">
+                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
+                <p>
+                    You are logged in.
+                    {{ msg }}
+                </p>
+                <ng-container *ngIf="CredsIssued">
+                    <p>Hi {{ name }}.</p>
+                    <p>Thank you for coming back to the Old Mutual stand.<br>
+                        You have already been issued your Old Mutual credentials.</p>
+                    <p>Please continue your quest for all the other credentials.</p>
                 </ng-container>
-                <ng-container *ngIf="loggedin">
-                    <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
-                </ng-container>
-                <div>
-                    Check-in to get issued your attendance claim.<br>
-                    This will be recorded with your DID<sup>*</sup><br>
-                    <sup>*</sup>DID = Decentralised Identifier
-                </div>
             </ion-col>
         </ion-row>
-        <ion-row>
-            <ion-col size="12" class="msg">
-                {{ msg }}
-            </ion-col>
-        </ion-row>
-        <ion-row *ngIf="learning">
-            <ion-col size="12" class="learning">
-                Imagine if it was this simple to share your identity<br>
-                (and receive FICA credentials) with any bank or insurer!
-            </ion-col>
-        </ion-row>
+        <ng-container *ngIf="learning">
+            <ion-row *ngIf="loggedin">
+                <ion-col size="12" class="learning">
+                    <p>Congrats {{ name }} on being issued your Demo Old Mutual FICA certificate.</p>
+                    <p><b>Snap! Just like that you were Authenticated AND FICA'd in a single step!.</b></p>
+                    <p>Imagine if it was this simple to share your identity<br>
+                        (and receive FICA credentials) with any bank or insurer!</p>
+                </ion-col>
+                <ion-col size="12">
+                    <p>Proceed now to the other exibitor stands to learn more.</p>
+                </ion-col>
+            </ion-row>
+        </ng-container>
     </ion-grid>
 </ion-content>
 <ion-footer text-center padding>
     <ion-grid fixed>
         <ion-row>
-            <ion-col size="6">
+            <ion-col size="4" style="padding-top: 20px;">
+                <img src="/assets/SAFBC.png" style="max-height: 30px;">
+            </ion-col>
+            <ion-col size="4">
                 <img src="/assets/blockchain-africa-conf-logo.png" alt="blockchain africa conf logo" style="max-height: 50px;">
             </ion-col>
-            <ion-col size="6">
-                <img src="/assets/SAFBC.png" style="max-height: 50px;">
+            <ion-col size="4" style="padding-top: 20px;">
+                <img src="/assets/uport_Horizontal Logo.svg" style="height: 30px;">
             </ion-col>
         </ion-row>
     </ion-grid>

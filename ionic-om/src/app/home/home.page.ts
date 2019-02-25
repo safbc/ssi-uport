@@ -12,13 +12,24 @@ declare var faker: any;
 export class HomePage {
     loading: HTMLIonLoadingElement;
 
-    constructor(
-        public loadingController: LoadingController
-    ) { }
-
-    msg = '';
+    gift = false;
+    BlockchainAcademy = false;
+    VALR = false;
+    OldMutual = false;
+    OldMutualKYC = false;
+    SAFBC = false;
+    BAC_ID = false;
     loggedin = false;
     learning = false;
+    checkedin = false;
+    completed = false;
+    notcompleted = false;
+    msg = null;
+    firstName = 'UnLast';
+    middleName = 'UnMiddle';
+    lastName = 'UnLast';
+    name = 'UnPerson';
+
     Connect = uportconnect;
     uport = new this.Connect('Old Mutual SSI Quest', {
         network: 'mainnet',
@@ -27,11 +38,16 @@ export class HomePage {
         description: 'Old Mutual & 22seven @ Blockchain Africa 2019 Conference'
     });
     count: number;
+    CredsIssued: boolean;
+
+    constructor(
+        public loadingController: LoadingController
+    ) { }
 
     checkIn() {
         this.uport.requestDisclosure({
             requested: ['name'],
-            verified: ['SAFBC', 'OldMutual', 'BAC_ID'],
+            verified: ['SAFBC', 'BAC_ID', 'OldMutual', 'OldMutualKYC'],
             notifications: true
         })
             .catch((e) => {
@@ -50,7 +66,6 @@ export class HomePage {
                 console.log(res.payload);
 
                 this.loggedin = true;
-                this.msg = `Welcome Delegate, you are now logged in`;
 
                 this.count = 0;
 
@@ -58,76 +73,92 @@ export class HomePage {
                     console.log('SAFBC cred not issued yet');
                     // document.querySelector('#msg').innerHTML =
                     // document.querySelector('#msg').innerHTML +
-                    this.msg = this.msg +
-                        '<br>I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                    this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
 
                 } else {
                     verified.forEach(element => {
                         console.log(++this.count);
-                        if (undefined === element.claim.NationalID) {
-                            console.log('ID cred not issued yet');
-                            this.msg = this.msg +
-                                `I see you are eager to play the SSI Quest,
-                                 but you must first please visit the SAFBC stand to get your own #BAC-ID!`;
+
+                        if (undefined !== element.claim.BAC_ID) {
+                            console.log('ID cred  issued ');
+                            this.BAC_ID = true;
+                        } else if (undefined !== element.claim.OldMutual) {
+                            console.log('OldMutual cred  issued already');
+                            this.OldMutual = true;
+                        } else if (undefined !== element.claim.OldMutualKYC) {
+                            console.log('OldMutualKYC cred issued already');
+                            this.OldMutualKYC = true;
+                        } else if (undefined !== element.claim.SAFBC) {
+                            console.log('SAFBC cred issued');
+                            this.SAFBC = true;
+                        }
+                    });
+
+                    if (!this.BAC_ID) {
+                        console.log('ID cred not issued yet');
+                        this.learning = false;
+                        this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                        return;
+                    } else {
+                        if (this.OldMutual && this.OldMutualKYC) {
+                            console.log('OldMutual creds already issued');
+                            this.CredsIssued = true;
+
+                            return;
 
                         } else {
-                            if (undefined === element.claim.OldMutual) {
-                                console.log('OldMutual cred not issued yet');
-                                this.msg = this.msg +
-                                    `<p>Thank you for visiting the Old Mutual stand.</p>
-                                <p>You have been issued an attendance credential.<br/>
-                                Please continue your quest for all the other credentials.</p>`;
+                            console.log('OldMutual creds not issued yet');
+                            this.msg = null;
 
-                                const claimData = {
-                                    'OldMutual': {
-                                        'DelegateDID': res.payload.did,
-                                        'AttendedOldMutual': true,
-                                        'LastSeen': `${new Date()}`
-                                    }
-                                };
+                            this.name = res.payload.BAC_ID.NomDeGuerre;
+                            this.firstName = this.name.split(' ').shift();
+                            this.lastName = this.name.split('').pop();
 
-                                const claimKYC = {
-                                    'OldMutualKYC': {
-                                        'IDNumber': res.payload.BAC_ID.IDNumber,
-                                        'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
-                                        'Domicile': res.payload.BAC_ID.Domicile,
-                                        'Issued': `${new Date()}`
-                                    }
-                                };
+                            const claimData = {
+                                'OldMutual': {
+                                    'DelegateDID': res.payload.did,
+                                    'AttendedOldMutual': true,
+                                    'LastSeen': `${new Date()}`
+                                }
+                            };
 
-                                const a = Object.keys(claimData)[0];
+                            const claimKYC = {
+                                'OldMutualKYC': {
+                                    'IDNumber': res.payload.BAC_ID.IDNumber,
+                                    'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
+                                    'Domicile': res.payload.BAC_ID.Domicile,
+                                    'DOB': res.payload.BAC_ID.Born,
+                                    'Issued': `${new Date()}`
+                                }
+                            };
 
-                                // log the visit to firestore
-                                const logData = {
-                                    'user': res.payload,
-                                    'OldMutual': claimData.OldMutual,
-                                    'OldMutualKYC': claimKYC.OldMutualKYC
-                                };
+                            const a = Object.keys(claimData)[0];
 
-                                this.logDelegate(logData);
+                            // log the visit to firestore
+                            const logData = {
+                                'user': res.payload,
+                                'OldMutual': claimData.OldMutual,
+                                'OldMutualKYC': claimKYC.OldMutualKYC
+                            };
 
+                            this.logDelegate(logData);
+
+                            this.uport.sendVerification({
+                                exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
+                                claim: claimData
+                            }).then(() => {
+                                this.learning = true;
                                 this.uport.sendVerification({
                                     exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                    claim: claimData
-                                }).then(() => {
-                                    this.uport.sendVerification({
-                                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
-                                        claim: claimKYC
-                                    });
+                                    claim: claimKYC
                                 });
+                            });
 
-                                this.learning = true;
 
-                            } else {
-                                console.log('OldMutual cred already issued');
-                                this.msg = this.msg +
-                                    `<p>Thank you for coming back to the Old Mutual stand.</p>
-                                <p>You have already been issued an attendance credential.<br>
-                                Please continue your quest for all the other credentials.</p>`;
-                            }
                         }
+                    }
 
-                    });
+
                 }
 
             })
