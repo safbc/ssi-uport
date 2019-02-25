@@ -8,7 +8,7 @@
                 </div>
             </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="!loggedin">
             <ion-col size="12" size-md>
                 <p>
                     We've all attended training of one kind or another;<br>
@@ -32,46 +32,89 @@
                     The online course website was shut down.<br>
                     You got your training in another country that had a coup!
                 </p>
-                <p><b>But you could be dishonest and faked that certificate from a school that never existed!</b></p>
+                <p><b>But you could also be dishonest and faked that certificate from a school that never existed!</b></p>
             </ion-col>
-            <ion-col size="12" text-center *ngIf="!loggedin">
-                <p>When we use our own <b>Biometrically Authenticated Digital SSI Wallet</b>, Education institutions
-                    will be able to <b>securely</b>
-                    and <b>authoritatively</b> ISSUE these training certifications to us electronically.
+            <ion-col size="12" text-center>
+                <p>
+                    When we use our own <b>Biometrically Authenticated Digital SSI Wallet</b>, Education institutions
+                    will be able to <b>securely</b> and <b>authoritatively</b> ISSUE these training certifications to
+                    us electronically.
+                </p>
+                <p>
                     And as <b>OUR PROVEN DIGITAL SELVES</b> we can share those credentials <b>selectively</b> and <b>dynamically</b>
-                    with recruiters who can easily <b>verify</b> their origin and trustworthyness.</p>
+                    with recruiters who can easily <b>verify</b> their origin and trustworthyness.
+                </p>
                 <ion-button (click)="checkIn()" color="primary" size="large">GET YOUR SSI CERTIFICATE*</ion-button><br>
                 <span style="font-size:x-small">* Example only. Not officially issued by this intitution.</span>
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="loggedin">
+        <ion-row *ngIf="loggedin" text-center>
             <ion-col size="12">
-                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
-                <p>
-                    {{ msg }}
-                </p>
+                <ng-container *ngIf="eager">
+                    I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to
+                    start!
+                </ng-container>
+                <ng-container *ngIf="!trainingComplete">
+                    <ng-container *ngIf="!CredsIssued">
+                        <p>
+                            Thank you {{ name}}!
+                        </p>
+                        <p>
+                            You have been issued your attendance credential for visiting the Blockchain Academy stand.<br>
+                            But there is an easter egg to find....
+                        </p>
+                        <p>
+                            Why don't you try return here again after visiting the VALR and Old Mutual stands.<br>
+                            Something interesting awaits....
+                        </p>
+                    </ng-container>
+                </ng-container>
                 <ng-container *ngIf="CredsIssued">
                     <p>Hi {{ name }}.</p>
-                    <p>Thank you for coming back to the Blockchain Academy stand.<br>
-                        You have already been issued your Blockchain Academy attendance credential.</p>
-                    <p>Please continue your quest for all the other credentials.</p>
+                    <p>
+                        Thank you for coming back to the Blockchain Academy stand again.<br>
+                        You have already been issued all your Blockchain Academy Credentials.
+                    </p>
+                    <p>
+                        Having attended all the other SSI Journey stands, you have discovered the full spectrum
+                        of the SAFBC #SSI awareness training being presented today.
+                    </p>
+                    <p>
+                        If you haven't done so, proceed back to the SAFBC stand for your reward.
+                    </p>
                 </ng-container>
             </ion-col>
+            <ng-container *ngIf="learning">
+                <ion-col size="12" *ngIf="trainingComplete">
+                    <p>
+                        Congrats {{ name}}!<br>
+                        <b>You have discovered the SSI Quest Easter Egg.</b>
+                    </p>
+                    <p>
+                        Having attended all the other SSI Journey stands you have discovered the full spectrum
+                        of the SAFBC #SSI awareness training being presented today.
+                    </p>
+                    <p>
+                        In testament to your achievemnt, you have been issued the prestigious:<br>
+                        <b><i>SAFBC SSI Journey (101) Certificate</i></b><br>
+                        (which conveys bragging rights, if nothing else.)
+                    </p>
+                    <p>
+                        <b><i>Imagine if all education and training certifications where issued this way!</i></b>
+                    </p>
+                    <p>
+                        <b>Did you know?</b><br>
+                        Certifications that have expiry dates are catered for as well!
+                    </p>
+                    <p>
+                        If you haven't done so, proceed back to the SAFBC stand for your reward.
+                    </p>
+                </ion-col>
+            </ng-container>
+            <ion-col text-center size="12">
+                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
+            </ion-col>
         </ion-row>
-        <ng-container *ngIf="learning">
-            <ion-row *ngIf="loggedin">
-                <ion-col size="12" class="learning">
-                    <p><b>Hello {{ name}}! Just like that you were Authenticated without touching the keyboard!.</b></p>
-                    <p>Now no-one (even 'clever people') can trade that crypto of yours but you!<br></p>
-                    <p><i>Imagine if it was this simple to log in to all your favourite<br>
-                            websites and services.</i></p>
-                    <p>Did you know: You can even use this for real world access control!</p>
-                </ion-col>
-                <ion-col size="12">
-                    <p>Proceed now to the other exibitor stands to learn more.</p>
-                </ion-col>
-            </ion-row>
-        </ng-container>
     </ion-grid>
 </ion-content>
 <ion-footer text-center padding>

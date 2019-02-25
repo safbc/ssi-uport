@@ -40,6 +40,7 @@ export class HomePage {
     CredsIssued: boolean;
     SSIJourney101: boolean;
     trainingComplete: boolean;
+    eager: boolean;
 
     constructor(
         public loadingController: LoadingController
@@ -103,8 +104,8 @@ export class HomePage {
 
                     if (!this.BAC_ID) {
                         console.log('ID cred not issued yet');
+                        this.eager = true;
                         this.learning = false;
-                        this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
                         return;
                     } else {
                         if (this.BlockchainAcademy && this.SSIJourney101) {
@@ -147,7 +148,7 @@ export class HomePage {
                                 if (this.SAFBC && this.VALR && this.OldMutual) {
                                     this.learning = true;
                                     const courseInfo = {
-                                        'CourseTitle': 'SAFBC SSI Journey',
+                                        'CourseTitle': 'SAFBC SSI Journey 101',
                                         'NQFLevel': 0,
                                         'Campus': 'Wanderes Club, Johannesburg',
                                         'Description': 'This certificate indicates that conferred has completed the SAFBC SSI Journey'
@@ -177,20 +178,18 @@ export class HomePage {
                                     });
                                 } else {
                                     this.learning = false;
-                                    // tslint:disable-next-line:max-line-length
-                                    this.msg = 'You now have your attendance credential, but you need to visit both Old Mutual and VALR first and return here to get your SSI Journey training certificate.';
-
+                                    this.name = res.payload.BAC_ID.NomDeGuerre;
                                 }
                             });
 
 
                         } else if (this.BlockchainAcademy && !this.SSIJourney101) {
-
+                            this.name = res.payload.BAC_ID.NomDeGuerre;
                             console.log('Certificate not issued yet');
                             if (this.SAFBC && this.VALR && this.OldMutual) {
 
                                 const courseInfo = {
-                                    'CourseTitle': 'SAFBC SSI Journey',
+                                    'CourseTitle': 'SAFBC SSI Journey101',
                                     'NQFLevel': 0,
                                     'Campus': 'Wanderes Club, Johannesburg',
                                     'Description': 'This certificate indicates that conferred has completed the SAFBC SSI Journey'
@@ -213,14 +212,17 @@ export class HomePage {
 
                                 this.logDelegate(logTraining);
 
+                                this.learning = true;
                                 this.trainingComplete = true;
                                 this.uport.sendVerification({
                                     exp: Math.floor(new Date().getTime() / 1000) + (4 * 60 * 60),
                                     claim: claimCert
                                 });
                             } else {
-                                // tslint:disable-next-line:max-line-length
-                                this.msg = 'You now have your attendance credential, but you need to visit both Old Mutual and VALR first and return here to get your SSI Journey training certificate.';
+                                // Returned to stand an dstill not completed journey
+                                this.trainingComplete = false;
+                                this.learning = false;
+                                this.name = res.payload.BAC_ID.NomDeGuerre;
                             }
 
                         }
