@@ -1,14 +1,14 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>
-            Game Activity Stream
+            #SSI Journey Activity Stream
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
 
-    <ion-card *ngFor="let item of activity | async">
+    <ion-card color="warning" *ngFor="let item of activity | async">
         <ion-card-content>
             <ion-item>
                 <ion-avatar slot="start">
@@ -20,27 +20,32 @@
             <ion-item *ngIf="item.SAFBC">
                 <ion-icon name="ribbon" slot="end"></ion-icon>
                 <ion-label>SAFBC</ion-label>
-                <p>{{item.SAFBC.LastSeen}}</p>
+                <p>{{item.SAFBC.LastSeen | shortdate}}</p>
             </ion-item>
             <ion-item *ngIf="item.VALR">
                 <ion-icon name="lock" slot="end"></ion-icon>
                 <ion-label>VALR</ion-label>
-                <p>{{item.VALR.LastSeen}}</p>
+                <p>{{item.VALR.LastSeen | shortdate}}</p>
             </ion-item>
             <ion-item *ngIf="item.OldMutual">
                 <ion-icon name="finger-print" slot="end"></ion-icon>
                 <ion-label>Old Mutual</ion-label>
-                <p>{{item.OldMutual.LastSeen}}</p>
+                <p>{{item.OldMutual.LastSeen | shortdate}}</p>
             </ion-item>
             <ion-item *ngIf="item.BlockchainAcademy">
                 <ion-icon name="school" slot="end"></ion-icon>
                 <ion-label>Blockchain Academy</ion-label>
-                <p>{{item.BlockchainAcademy.LastSeen}}</p>
+                <p>{{item.BlockchainAcademy.LastSeen | shortdate}}</p>
+            </ion-item>
+            <ion-item *ngIf="item.SSIJourney101">
+                <ion-icon name="school" slot="end"></ion-icon>
+                <ion-label>SSI Journey 101</ion-label>
+                <p>{{item.SSIJourney101.Issued | shortdate}}</p>
             </ion-item>
             <ion-item *ngIf="item.GiftRedeemed">
                 <ion-icon name="gift" slot="end"></ion-icon>
                 <ion-label>Gift Redeemed</ion-label>
-                <p>{{item.GiftRedeemed.redeemedDate}}</p>
+                <p>{{item.GiftRedeemed.redeemedDate | shortdate}}</p>
             </ion-item>
 
 
