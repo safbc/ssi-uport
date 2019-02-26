@@ -33,7 +33,6 @@ export class HomePage {
     Connect = uportconnect;
     uport = new this.Connect('SAFBC SSI Quest', {
         network: 'mainnet',
-        accentColor: '#200202',
         profileImage: { '/': '/ipfs/QmaAroK3Mrxzi2rpTKvLyfGfWfAnNGNKrKpQXmwWg2F54b' },
         bannerImage: { '/': '/ipfs/QmWeN9UFxU5mKWzuEXKuJTcPECkDa8MCJo95rCTGAchDQW' },
         description: 'SAFBC Stand @ Blockchain Africa 2019 Conference'
@@ -137,6 +136,7 @@ export class HomePage {
             'SAFBC': {
                 'DelegateDID': res.payload.did,
                 'AttendedSAFBC': true,
+                'Website': 'https://www.safbc.co.za',
                 'LastSeen': `${new Date()}`
             }
         };
@@ -144,13 +144,20 @@ export class HomePage {
         let dob = faker.date.past(50, new Date('Sat Sep 20 1992 21:35:02 GMT+0200 (CEST)'));
         dob = dob.getFullYear() + '-' + (dob.getMonth() + 1) + '-' + dob.getDate();  // First month is "1"
 
+        const description = 'This is a sample Identity record for a fictional person.' +
+            ' It could just as easily been a digital representation of  National/State Identity document' +
+            ' containing all the fields that are usually present within such a document today. ' +
+            ' In fact it could even be enhanced to actually include additional data such as your Photo or Signature scan or ' +
+            ' even some Biometrics data. ';
+
         const claimID = {
             'BAC_ID': {
                 'IDNumber': res.payload.did,
                 'NomDeGuerre': this.name,
                 'Domicile': faker.address.city(),
                 'Born': dob,
-                'Issued': `${new Date()}`
+                'Issued': `${new Date()}`,
+                'Description': description
             }
         };
 
