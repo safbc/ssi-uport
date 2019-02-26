@@ -40,6 +40,12 @@ export class HomePage {
     count: number;
     gotGift: boolean;
 
+    appinfo = {
+        'Author': 'Gary de Beer (BankservAfrica)',
+        'Name': 'SAFBC Stand App',
+        'Organisation': 'SAFBC'
+    };
+
     constructor(
         public loadingController: LoadingController
     ) { }
@@ -138,7 +144,8 @@ export class HomePage {
                 'AttendedSAFBC': true,
                 'Website': 'https://www.safbc.co.za',
                 'LastSeen': `${new Date()}`
-            }
+            },
+            'AppInfo': this.appinfo
         };
 
         let dob = faker.date.past(50, new Date('Sat Sep 20 1992 21:35:02 GMT+0200 (CEST)'));

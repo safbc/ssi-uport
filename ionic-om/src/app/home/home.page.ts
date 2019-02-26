@@ -39,6 +39,7 @@ export class HomePage {
     });
     count: number;
     CredsIssued: boolean;
+    falsestart: boolean;
 
     constructor(
         public loadingController: LoadingController
@@ -73,7 +74,7 @@ export class HomePage {
                     console.log('SAFBC cred not issued yet');
                     // document.querySelector('#msg').innerHTML =
                     // document.querySelector('#msg').innerHTML +
-                    this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                    this.falsestart = true;
 
                 } else {
                     verified.forEach(element => {
@@ -96,8 +97,7 @@ export class HomePage {
 
                     if (!this.BAC_ID) {
                         console.log('ID cred not issued yet');
-                        this.learning = false;
-                        this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
+                        this.falsestart = true;
                         return;
                     } else {
                         if (this.OldMutual && this.OldMutualKYC) {
@@ -123,13 +123,20 @@ export class HomePage {
                                 }
                             };
 
+                            const description = 'In the future, should the correct governance framework be put in place,' +
+                                ' financial institutions will accept the validated and signed FICA credentials issued by' +
+                                ' another institution. These would have been issued with appropriate validity periods as' +
+                                ' per the context of the original interaction. If the onboarding process is audited and vetted' +
+                                ' by the relevant official regulatory authority, then why not...';
+
                             const claimKYC = {
                                 'OldMutualKYC': {
                                     'IDNumber': res.payload.BAC_ID.IDNumber,
                                     'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
                                     'Domicile': res.payload.BAC_ID.Domicile,
                                     'DOB': res.payload.BAC_ID.Born,
-                                    'Issued': `${new Date()}`
+                                    'Issued': `${new Date()}`,
+                                    'Description': description
                                 }
                             };
 

@@ -5,51 +5,73 @@
                 <div>
                     <img src="/assets/Old-Mutual-22seven-logo-white.png" alt="old mutual 22-seven logo">
                     <h1>THE GREAT SSI QUEST</h1>
-                    <h2>Welcome to <br>Old Mutual & 22seven</h2>
                 </div>
             </ion-col>
-            <ion-col size="12" text-center *ngIf="!loggedin">
-                <p>One of the most promising use-cases for blockchain in financial services is Digital
-                    Identity and simplifying the "Know Your Customer (KYC)" process.</p>
-                <p>Good SSI will enable us to <b>securely</b> and <b>authoritatively</b> present all the required
-                    information for FICA in a simple digital interaction.</p>
-
-                <p>NOTE: When you share your information during the login process below, that you will also be
-                    requested to share your new <b>BAC_ID</b> credential.
-                </p>
-            </ion-col>
-            <ion-col size="12" text-center *ngIf="!loggedin">
-                <ion-button (click)="checkIn()" color="primary" size="large">LOG IN & FICA</ion-button>
-            </ion-col>
         </ion-row>
-        <ion-row *ngIf="loggedin">
-            <ion-col size="12">
-                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
+        <ion-row>
+            <ion-col size-md="12" text-center>
                 <p>
-                    You are logged in.
-                    {{ msg }}
+                    One of the most promising use-cases for blockchain in financial services is Digital
+                    Identity and simplifying the "Know Your Customer (KYC)" process.</p>
+                <p>
+                    Well implemented #SSI solutions will enable us to <b>securely</b> and <b>authoritatively</b>
+                    disclose <b>only the required</b> information for FICA in a simple digital interaction.
                 </p>
+                <p>
+                    When you share your information during this login process, you will now also be
+                    requested to share your <b>BAC_ID</b> credential.
+                </p>
+                <p>
+                    This is equivalent to a financial services representative requesting to see your <b>Identification
+                        document</b> and <b>'proof-of-address'</b> information during a real world FICA process.
+                </p>
+            </ion-col>
+
+            <!-- Right hand column on wider screen devices | Not logged in -->
+            <ion-col size-md="12" text-center *ngIf="!loggedin">
+                <p>
+                    By sharing all of you relevant information in the login process, the financial institution is able
+                    to both <b>authenticate</b> you and perform the <b>KYC validation</b> in a single step!
+                </p>
+
+                <ion-button (click)="checkIn()" color="primary" size="large">LOG IN & FICA</ion-button>
+
+            </ion-col>
+
+            <!-- Right hand column on wider screen devices | After login-->
+            <ion-col size="12" *ngIf="loggedin">
+
+                <ng-container *ngIf="falsestart">
+                    <p>
+                        You are logged in.
+                    </p>
+                    <p>
+                        I see you are eager to play the SSI Quest, but you must please visit the SAFBC stand first to
+                        start!';
+                    </p>
+                </ng-container>
+                <!--  -->
+                <ng-container *ngIf="learning">
+                    <p>Congrats {{ name }} on being issued your <b>Demo Old Mutual FICA</b> certificate.</p>
+                    <p><b>Snap! Just like that you were Authenticated AND FICA'd in a single step!.</b></p>
+                    <p><i>Imagine if it was this simple to share your identity<br>
+                            (and receive FICA credentials) with any bank or insurer!</i></p>
+                    <p></p>
+                    <p>Proceed now to the other exibitor stands to learn more.</p>
+
+                </ng-container>
+
+                <!-- If you have already got your credentials -->
                 <ng-container *ngIf="CredsIssued">
                     <p>Hi {{ name }}.</p>
                     <p>Thank you for coming back to the Old Mutual stand.<br>
                         You have already been issued your Old Mutual credentials.</p>
                     <p>Please continue your quest for all the other credentials.</p>
                 </ng-container>
+
+                <ion-button (click)="logout()" color="primary" size="large">LOGOUT</ion-button>
             </ion-col>
         </ion-row>
-        <ng-container *ngIf="learning">
-            <ion-row *ngIf="loggedin">
-                <ion-col size="12" class="learning">
-                    <p>Congrats {{ name }} on being issued your <b>Demo Old Mutual FICA</b> certificate.</p>
-                    <p><b>Snap! Just like that you were Authenticated AND FICA'd in a single step!.</b></p>
-                    <p><i>Imagine if it was this simple to share your identity<br>
-                            (and receive FICA credentials) with any bank or insurer!</i></p>
-                </ion-col>
-                <ion-col size="12">
-                    <p>Proceed now to the other exibitor stands to learn more.</p>
-                </ion-col>
-            </ion-row>
-        </ng-container>
     </ion-grid>
 </ion-content>
 <ion-footer text-center padding>
