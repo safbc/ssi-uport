@@ -33,6 +33,7 @@ export class HomePage {
     Connect = uportconnect;
     uport = new this.Connect('SAFBC SSI Quest', {
         network: 'mainnet',
+        accentColor: '#200202',
         profileImage: { '/': '/ipfs/QmaAroK3Mrxzi2rpTKvLyfGfWfAnNGNKrKpQXmwWg2F54b' },
         bannerImage: { '/': '/ipfs/QmWeN9UFxU5mKWzuEXKuJTcPECkDa8MCJo95rCTGAchDQW' },
         description: 'SAFBC Stand @ Blockchain Africa 2019 Conference'
@@ -170,7 +171,6 @@ export class HomePage {
                 exp: Math.floor(new Date().getTime() / 1000) + 365 * 24 * 60 * 60,
                 claim: claimID
             });
-            this.learning = false;
             this.checkedin = true;
         });
     }
