@@ -82,7 +82,7 @@ export class HomePage {
                     this.lastName = faker.name.lastName();
 
                     this.name = this.firstName + ' ' + this.lastName;
-                    this.learning = false;
+
 
                     this.issueCreds(res);
 
