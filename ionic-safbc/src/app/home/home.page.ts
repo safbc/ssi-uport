@@ -331,8 +331,8 @@ export class HomePage {
     checkGift(did) {
         const xhr = new XMLHttpRequest();
         const qry = {
-            "did": did
-        }
+            'did': did
+        };
         const data = JSON.stringify(qry);
 
         // tslint:disable-next-line:quotemark
@@ -345,7 +345,7 @@ export class HomePage {
         return xhr.onreadystatechange = function () {
             if (this.readyState === 4) {
                 console.log('XHR request completed. ', this.responseText);
-                let res: GotGift = JSON.parse(this.responseText);
+                const res: GotGift = JSON.parse(this.responseText);
                 return res.gotGift;
             }
         };
