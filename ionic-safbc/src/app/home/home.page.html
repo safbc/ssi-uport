@@ -82,11 +82,12 @@
                     <ion-row>
                         <ion-col size-md="10" offset-md="1" *ngIf="learning">
                             <p>
-                                Welcome delegate. You are now logged in.
+                                Welcome {{ uportName }}. You are now logged in.
                             </p>
                             <p>
-                                Please wait while we mint your new <b>BlockchainAfrica Identity (BAC_ID)</b>
-                                digital credential. This will be unique to you.
+                                We are now creating your new alter-ego and its digital <b>BlockchainAfrica Identity
+                                    (BAC_ID)</b>
+                                credential. This will be unique to you.
                             </p>
                             <p>
                                 To have a bit of fun we have used a random data generator to set these values for you.
@@ -94,12 +95,14 @@
                         </ion-col>
                         <ion-col size-md="10" offset-md="1" *ngIf="checkedin">
                             <p>
-                                Congrats {{ name }}! <i>(your new fake name)</i>
+                                Congrats {{ name }}! <span style="font-size: smaller; font-style: italic;">(this is
+                                    your new alter-ego's name)</span>
                             </p>
                             <p>
-                                You now have a newly minted digital <b>BlockchainAfrica Identity
-                                    (BAC_ID)</b> credential. It is unique to you and could only have been issued to you
-                                due to your physical presence at this stand.
+                                You now have a newly minted digital <b>BlockchainAfrica Identity (BAC_ID)</b>
+                                credential.<br>
+                                It is unique to you and could only have been issued to you due to your physical
+                                presence at this stand.
                             </p>
                             <p>
                                 Proceed now {{ firstName }}, on your quest to collect the 3 other attestations from our
@@ -117,7 +120,7 @@
                         </ion-col>
                         <ion-col size-md="10" offset-md="1" *ngIf="completed">
                             <p>
-                                Thanks for playing our game {{ name }}, and enjoy your reward!
+                                Thanks for playing our game {{ uportName }}, and enjoy your reward!
                             </p>
                             <p>
                                 We hope you have also learned a little about how Self-sovereign Identity identity
@@ -130,7 +133,7 @@
                         </ion-col>
                         <ion-col size-md="10" offset-md="1" *ngIf="gift">
                             <p>
-                                Thanks for playing our game {{ name }}. <br>
+                                Thanks for playing our game {{ uportName }}. <br>
                                 We see that you have already enjoyed your reward!
                             </p>
                             <p>

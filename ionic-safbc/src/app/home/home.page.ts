@@ -25,6 +25,7 @@ export class HomePage {
     completed = false;
     notcompleted = false;
     msg = '';
+    uportName = '';
     firstName = 'First';
     lastName = 'Last';
     name = 'First Last';
@@ -64,6 +65,7 @@ export class HomePage {
                 const json = JSON.stringify(res.payload);
                 const verified = res.payload.verified;
                 console.log(res.payload);
+                this.uportName = res.payload.name;
 
 
 
@@ -193,6 +195,8 @@ export class HomePage {
                 const _jsonPayload = JSON.stringify(res.payload);
                 const verified = res.payload.verified;
                 console.log(res.payload);
+
+                this.uportName = res.payload.name;
 
                 let count = 0;
 
