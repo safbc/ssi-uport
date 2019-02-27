@@ -26,7 +26,6 @@ export class HomePage {
     notcompleted = false;
     msg = 'You are now logged in and you did it without a user name or password.';
     firstName = 'UnLast';
-    middleName = 'UnMiddle';
     lastName = 'UnLast';
     name = 'UnPerson';
 
@@ -48,7 +47,7 @@ export class HomePage {
     checkIn() {
         this.uport.requestDisclosure({
             requested: ['name'],
-            verified: ['SAFBC', 'BAC_ID', 'VALR', 'VALRAuth'],
+            verified: ['SAFBC', 'BAC_ID', 'VALR', 'VALRAuth', 'OldMutualKYC'],
             notifications: true
         })
             .catch((e) => {
@@ -92,6 +91,9 @@ export class HomePage {
                         } else if (undefined !== element.claim.SAFBC) {
                             console.log('SAFBC cred issued');
                             this.SAFBC = true;
+                        } else if (undefined !== element.claim.OldMutualKYC) {
+                            console.log('OldMutual KYC presented')
+                            this.OldMutualKYC = true;
                         }
                     });
 
@@ -120,15 +122,29 @@ export class HomePage {
                                 'VALR': {
                                     'DelegateDID': res.payload.did,
                                     'AttendedVALR': true,
-                                    'LastSeen': `${new Date()}`
+                                    'LastSeen': `${new Date()}`,
+                                    'Description': 'Proof that you visited the VALR stand.'
                                 }
                             };
+                            let kyc: any = null;
+                            if (this.OldMutualKYC) {
+                                kyc = res.payload.OldMutualKYC;
+                            } else {
+                                kyc = res.payload.BAC_ID;
+                            }
+
+                            const description = 'If you have visited the Old Mutual stand before you visited VALR,' +
+                                ' you will notice that the KYC record contains a copy of the OldMutualKYC credential.' +
+                                ' This indicates that VALR has forgone the usual KYC process, and instead has opted rely' +
+                                ' on the KYC process attestation of Old Mutual. This simplifies things so much for the' +
+                                ' customer.';
 
                             const claimAuth = {
                                 'VALRAuth': {
                                     'User': res.payload.did,
-                                    'KYC': res.payload.BAC_ID,
-                                    'Issued': `${new Date()}`
+                                    'KYC': kyc,
+                                    'Issued': `${new Date()}`,
+                                    'Description': description
                                 }
                             };
 
