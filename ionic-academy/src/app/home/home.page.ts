@@ -48,7 +48,7 @@ export class HomePage {
 
     checkIn() {
         this.uport.requestDisclosure({
-            requested: ['name'],
+            requested: ['name', 'email'],
             verified: ['SAFBC', 'BAC_ID', 'VALR', 'OldMutual', 'BlockchainAcademy', 'SSIJourney101'],
             notifications: true
         })
@@ -73,8 +73,6 @@ export class HomePage {
 
                 if (verified.length === 0) {
                     console.log('SAFBC cred not issued yet');
-                    // document.querySelector('#msg').innerHTML =
-                    // document.querySelector('#msg').innerHTML +
                     this.msg = 'I see you are eager to play the SSI Quest, but you must first please visit the SAFBC stand to start!';
 
                 } else {
@@ -121,13 +119,14 @@ export class HomePage {
 
                             this.name = res.payload.BAC_ID.NomDeGuerre;
                             this.firstName = this.name.split(' ').shift();
-                            this.lastName = this.name.split('').pop();
+                            this.lastName = this.name.split(' ').pop();
 
                             const claimData = {
                                 'BlockchainAcademy': {
                                     'DelegateDID': res.payload.did,
                                     'AttendedBlockchainAcademy': true,
-                                    'LastSeen': `${new Date()}`
+                                    'LastSeen': `${new Date()}`,
+                                    'Description': 'Proof of visiting the Blockchain Academy stall.'
                                 }
                             };
 
@@ -159,7 +158,9 @@ export class HomePage {
                                             'StudentDID': res.payload.did,
                                             'StudentName': res.payload.BAC_ID.NomDeGuerre,
                                             'CourseTaken': courseInfo,
-                                            'Issued': `${new Date()}`
+                                            'Institution': 'Blockchain Academy',
+                                            'Issued': `${new Date()}`,
+                                            'Description': 'This record lists all the details pertaining to the education recieved.'
                                         }
                                     };
 
@@ -173,7 +174,7 @@ export class HomePage {
 
                                     this.trainingComplete = true;
                                     this.uport.sendVerification({
-                                        exp: Math.floor(new Date().getTime() / 1000) + (4 * 60 * 60),
+                                        exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
                                         claim: claimCert
                                     });
                                 } else {
@@ -200,7 +201,9 @@ export class HomePage {
                                         'StudentDID': res.payload.did,
                                         'StudentName': res.payload.BAC_ID.NomDeGuerre,
                                         'CourseTaken': courseInfo,
-                                        'Issued': `${new Date()}`
+                                        'Institution': 'Blockchain Academy',
+                                        'Issued': `${new Date()}`,
+                                        'Description': 'This record lists all the details pertaining to the education recieved.'
                                     }
                                 };
 
@@ -215,7 +218,7 @@ export class HomePage {
                                 this.learning = true;
                                 this.trainingComplete = true;
                                 this.uport.sendVerification({
-                                    exp: Math.floor(new Date().getTime() / 1000) + (4 * 60 * 60),
+                                    exp: Math.floor(new Date().getTime() / 1000) + 30 * 24 * 60 * 60,
                                     claim: claimCert
                                 });
                             } else {
