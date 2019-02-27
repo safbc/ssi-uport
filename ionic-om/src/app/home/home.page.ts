@@ -26,7 +26,6 @@ export class HomePage {
     notcompleted = false;
     msg = null;
     firstName = 'UnLast';
-    middleName = 'UnMiddle';
     lastName = 'UnLast';
     name = 'UnPerson';
 
@@ -119,21 +118,23 @@ export class HomePage {
                                 'OldMutual': {
                                     'DelegateDID': res.payload.did,
                                     'AttendedOldMutual': true,
-                                    'LastSeen': `${new Date()}`
+                                    'LastSeen': `${new Date()}`,
+                                    'Description': 'Proof of having attended the Old Mutual 22seven stand.'
                                 }
                             };
 
-                            const description = 'In the future, should the correct governance framework be put in place,' +
+                            const description = 'In the future, should the correct governance frameworks be put in place,' +
                                 ' financial institutions will accept the validated and signed FICA credentials issued by' +
-                                ' another institution. These would have been issued with appropriate validity periods as' +
-                                ' per the context of the original interaction. If the onboarding process is audited and vetted' +
-                                ' by the relevant official regulatory authority, then why not...';
+                                ' other institutions. These would have been issued with appropriate validity periods as' +
+                                ' per the context of the original interaction. Once the onboarding process is audited and vetted' +
+                                ' by the relevant official regulatory authority, then the HUMAN Trust will rubber stamp the' +
+                                ' SYSTEMIC Trust';
 
                             const claimKYC = {
                                 'OldMutualKYC': {
                                     'IDNumber': res.payload.BAC_ID.IDNumber,
                                     'NomDeGuerre': res.payload.BAC_ID.NomDeGuerre,
-                                    'Domicile': res.payload.BAC_ID.Domicile,
+                                    'Domicile': res.payload.BAC_ID.Address,
                                     'DOB': res.payload.BAC_ID.Born,
                                     'Issued': `${new Date()}`,
                                     'Description': description
