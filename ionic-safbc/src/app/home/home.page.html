@@ -80,33 +80,23 @@
                 </ion-grid>
                 <ion-grid *ngIf="loggedin">
                     <ion-row>
-                        <ion-col size-md="10" offset-md="1">
-                            <p>
-                                Welcome <b>{{ uportName }}</b>. You are now logged in.
-                            </p>
-                            <p>
-                                We are now creating your new alter-ego and its digital <b>BlockchainAfrica Identity
-                                    (BAC_ID)</b>
-                                credential. This will be unique to you.
-                            </p>
-                            <p>
-                                To have a bit of fun we have used a random data generator to set these values for you.
-                            </p>
-                        </ion-col>
                         <ion-col size-md="10" offset-md="1" *ngIf="checkedin">
                             <p>
-                                Congrats {{ name }}! <span style="font-size: smaller; font-style: italic;">(this is
-                                    your new alter-ego's name)</span>
+                                Welcome <b>{{ name }}</b>. You are now logged in.
                             </p>
                             <p>
-                                You now have a newly minted digital <b>BlockchainAfrica Identity (BAC_ID)</b>
-                                credential.<br>
-                                It is unique to you and could only have been issued to you due to your physical
-                                presence at this stand.
+                                Along with your name and email, and to have a bit of fun, we are using a <b>random data
+                                    generator</b> to complete and issue you your new <b>"Republic of Blockchainia
+                                    Identity
+                                    (BAC_ID)"</b> credential.
+                            </p>
+                            <p>
+                                Your <b>BAC_ID</b> is unique to you and could only have been created due to your
+                                physical presence at this stand.
                             </p>
                             <p>
                                 Proceed now {{ firstName }}, on your quest to collect the 3 other attestations from our
-                                exhibition partners, and learn more about the other uses of your Digital ID.
+                                exhibition partners, and learn more about the other uses of your Digital Identity.
                             </p>
                         </ion-col>
                         <ion-col size="10" offset="1" *ngIf="notcompleted">

@@ -25,7 +25,6 @@ export class HomePage {
     completed = false;
     notcompleted = false;
     msg = '';
-    uportName = '';
     firstName = 'First';
     lastName = 'Last';
     name = 'First Last';
@@ -45,6 +44,7 @@ export class HomePage {
         'Name': 'SAFBC Stand App',
         'Organisation': 'SAFBC'
     };
+    email: any;
 
     constructor(
         public loadingController: LoadingController
@@ -53,7 +53,7 @@ export class HomePage {
 
     checkIn() {
         this.uport.requestDisclosure({
-            requested: ['name'],
+            requested: ['name', 'email'],
             verified: ['SAFBC', 'BAC_ID'],
             notifications: true
         })
@@ -71,8 +71,11 @@ export class HomePage {
                 const json = JSON.stringify(res.payload);
                 const verified = res.payload.verified;
                 console.log(res.payload);
-                this.uportName = res.payload.name;
 
+                this.name = res.payload.name.toUpperCase();
+                this.firstName = this.name.split(' ').shift();
+                this.lastName = this.name.split(' ').pop();
+                this.email = res.payload.email;
 
 
                 this.loggedin = true;
@@ -83,12 +86,6 @@ export class HomePage {
 
                 if (verified.length === 0) {
                     console.log('SAFBC cred not issued yet');
-
-                    this.firstName = faker.name.firstName();
-                    this.lastName = faker.name.lastName();
-
-                    this.name = this.firstName + ' ' + this.lastName;
-
 
                     this.issueCreds(res);
 
@@ -143,16 +140,17 @@ export class HomePage {
                 'DelegateDID': res.payload.did,
                 'AttendedSAFBC': true,
                 'Website': 'https://www.safbc.co.za',
-                'LastSeen': `${new Date()}`
+                'LastSeen': `${new Date()}`,
+                'Description': 'Credential that confirms that you visited the SAFBC stand at Blockchain Africa 2019.'
             },
             'AppInfo': this.appinfo
         };
 
-        let dob = faker.date.past(50, new Date('Sat Sep 20 1992 21:35:02 GMT+0200 (CEST)'));
+        let dob = faker.date.past(50, new Date('Sat Sep 20 2092 21:35:02 GMT+0200 (CEST)'));
         dob = dob.getFullYear() + '-' + (dob.getMonth() + 1) + '-' + dob.getDate();  // First month is "1"
 
-        const description = 'This is a sample Identity record for a fictional person.' +
-            ' It could just as easily been a digital representation of  National/State Identity document' +
+        const description = 'This is a fictional National Identity record for the fictional "Republic of Blockchainia"' +
+            ' It could just as easily been a digital representation of the South African National Identity document' +
             ' containing all the fields that are usually present within such a document today. ' +
             ' In fact it could even be enhanced to actually include additional data such as your Photo or Signature scan or ' +
             ' even some Biometrics data. ';
@@ -161,9 +159,13 @@ export class HomePage {
             'BAC_ID': {
                 'IDNumber': res.payload.did,
                 'NomDeGuerre': this.name,
-                'Domicile': faker.address.city(),
                 'Born': dob,
+                'Country': 'Republic of Blockchania',
                 'Issued': `${new Date()}`,
+                'Address': {
+                    'Street': faker.address.streetAddress(),
+                    'City': faker.address.city(),
+                },
                 'Description': description
             }
         };
@@ -210,8 +212,7 @@ export class HomePage {
                 const verified = res.payload.verified;
                 console.log(res.payload);
 
-                this.uportName = res.payload.name;
-
+                this.name = res.payload.name.toUpperCase();
                 let count = 0;
 
                 this.loggedin = true;
@@ -254,11 +255,12 @@ export class HomePage {
 
                         const claimData = {
                             'GiftRedeemed': {
-                                'redeemerName': res.payload.name,
+                                'redeemerName': this.name,
                                 'redeemerEmail': res.payload.email,
                                 'redeemerDID': res.payload.did,
                                 'GotGift': true,
-                                'redeemedDate': `${new Date()}`
+                                'redeemedDate': `${new Date()}`,
+                                'Description': 'This record indicates that a gift has been issued to you for having completed the SSI Quest'
                             }
                         };
 
@@ -280,7 +282,7 @@ export class HomePage {
 
                     } else if (this.SAFBC && this.BAC_ID && !this.gift && (!this.OldMutual || !this.VALR || !this.BlockchainAcademy)) {
                         // Show not completed response
-                        this.name = res.payload.BAC_ID.NomDeGuerre;
+                        this.name = res.payload.name.toUpperCase();
                         this.notcompleted = true;
 
                     } else if (this.gift) {
